@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AutoUpdateViaGitHubRelease;
+using Launcher.ViewModels;
 
 namespace Launcher
 {
@@ -29,6 +29,8 @@ namespace Launcher
             _medPlay.Play();
             var b = _medPlay.IsLoaded;
             _medPlay.MediaEnded += _medPlay_MediaEnded;
+
+            DataContext = new MainWindowViewModel();
         }
 
         private void _medPlay_MediaEnded(object sender, RoutedEventArgs e)
