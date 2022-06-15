@@ -35,14 +35,14 @@ namespace Launcher.ViewModels
                         () =>
                         {
                             AutoUpdater.ReportErrors = true;
-                            AutoUpdater.Synchronous = false;
-                            AutoUpdater.ShowSkipButton = true;
+                            AutoUpdater.Synchronous = true;
+                            //AutoUpdater.ShowSkipButton = true;
                             AutoUpdater.ShowRemindLaterButton = true;
-                            //AutoUpdater.HttpUserAgent = "AutoUpdater";
-                            AutoUpdater.RunUpdateAsAdmin = false;
-                            AutoUpdater.DownloadPath = Directory.GetCurrentDirectory()+"/updates";
+                            AutoUpdater.HttpUserAgent = "AutoUpdater";
+                            AutoUpdater.RunUpdateAsAdmin = true;
+                            AutoUpdater.DownloadPath = Directory.GetCurrentDirectory();
                             AutoUpdater.InstallationPath = Directory.GetCurrentDirectory();
-                            AutoUpdater.ClearAppDirectory = true;
+                            AutoUpdater.ClearAppDirectory = false;
                             AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 450);
                             AutoUpdater.Start("https://raw.githubusercontent.com/leocpx/CakeFactory/main/Launcher/version.xml");
                         });
