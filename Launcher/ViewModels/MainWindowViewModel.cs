@@ -98,6 +98,7 @@ namespace Launcher.ViewModels
                         ProgressValue = 6000;
 
                         AutoUpdater.CheckForUpdateEvent -= AutoUpdater_CheckForUpdateEvent;
+
                         AutoUpdater.Start("https://raw.githubusercontent.com/leocpx/CakeFactory/main/Launcher/version.xml");
                     }).Start();
             }
