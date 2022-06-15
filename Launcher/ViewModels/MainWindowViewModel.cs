@@ -30,6 +30,14 @@ namespace Launcher.ViewModels
         }
         private double progressValue = 0;
 
+        private string versionNumber = Assembly.GetEntryAssembly().GetName().Version.ToString();
+        public string VersionNumber
+        {
+            get { return versionNumber; }
+            set { versionNumber = value;PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VersionNumber))); }
+        }
+
+
         public double ProgressValue
         {
             get { return progressValue; }
@@ -53,9 +61,9 @@ namespace Launcher.ViewModels
             new Thread(
                 () =>
                 {
-                    while (ProgressValue < 5999)
+                    while (ProgressValue < 3999)
                     {
-                        Thread.Sleep(rnd.Next(10,500));
+                        Thread.Sleep(rnd.Next(5,150));
                         var maxVal = 6000 - ProgressValue;
                         var max = (int)maxVal / 2 < 100 ? 100 : (int)maxVal / 2;
                         var newValue = rnd.Next(1, max);
@@ -66,7 +74,7 @@ namespace Launcher.ViewModels
             new Thread(
                 () =>
                 {
-                    Thread.Sleep(3000);
+                    Thread.Sleep(2000);
                     {
                         AutoUpdater.ReportErrors = false;
                         AutoUpdater.Synchronous = true;
@@ -94,7 +102,7 @@ namespace Launcher.ViewModels
                 new Thread(
                     () =>
                     {
-                        Thread.Sleep(3000);
+                        Thread.Sleep(2000);
                         ProgressValue = 6000;
 
                         AutoUpdater.CheckForUpdateEvent -= AutoUpdater_CheckForUpdateEvent;
@@ -108,8 +116,8 @@ namespace Launcher.ViewModels
 
                 new Thread(() =>
                 {
-                    Thread.Sleep(3000);
-                    ProgressValue = 6000;
+                    Thread.Sleep(2000);
+                    ProgressValue = 4000;
                     var mainApp = Directory.GetCurrentDirectory() + "\\main.exe";
                     Application.Current.Dispatcher.Invoke(() => Process.Start(mainApp));
                     Application.Current.Dispatcher.Invoke(App.Current.Shutdown);
@@ -124,7 +132,7 @@ namespace Launcher.ViewModels
 
             new Thread(() =>
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(2000);
                 Application.Current.Dispatcher.Invoke(App.Current.Shutdown);
             }).Start();
         }
