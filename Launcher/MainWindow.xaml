@@ -17,7 +17,7 @@
         <Grid>
             <TextBlock Margin="10,0,30,30" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Opacity="0.7" Foreground="White">Please wait</TextBlock>
             <TextBlock Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Opacity="0.9" Foreground="white" Text="{Binding Text1Label}"/>
-            <TextBlock Margin="10,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="White" >v2.0.1.1</TextBlock>
+            <TextBlock Margin="10,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="White" >v2.0.1.2</TextBlock>
             <ProgressBar Foreground="Gray" Background="White" VerticalAlignment="Bottom" Height="5" Value="{Binding ProgressValue}" Minimum="0" Maximum="6000" />
         </Grid>
     </Grid>
