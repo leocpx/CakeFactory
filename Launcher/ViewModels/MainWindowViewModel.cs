@@ -35,10 +35,10 @@ namespace Launcher.ViewModels
                         () =>
                         {
                             AutoUpdater.ReportErrors = true;
-                            AutoUpdater.Synchronous = true;
+                            AutoUpdater.Synchronous = false;
                             AutoUpdater.ShowSkipButton = true;
                             AutoUpdater.ShowRemindLaterButton = true;
-                            AutoUpdater.HttpUserAgent = "AutoUpdater";
+                            //AutoUpdater.HttpUserAgent = "AutoUpdater";
                             AutoUpdater.RunUpdateAsAdmin = false;
                             AutoUpdater.DownloadPath = Directory.GetCurrentDirectory()+"/updates";
                             AutoUpdater.InstallationPath = Directory.GetCurrentDirectory();
