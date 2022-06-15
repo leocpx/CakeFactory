@@ -1,0 +1,23 @@
+﻿<Window x:Class="Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Launcher"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowState="Normal"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        Title="MainWindow"  Height="450" Width="800">
+    <Grid>
+        <MediaElement UnloadedBehavior="Manual"  Name="_medPlay" LoadedBehavior="Manual" Source="/Resources/production ID 4458664.mp4" Opacity="1" />
+        <Image Margin="-150" Source="pack://application:,,,/Resources/logo4.png" Opacity="0.75"/>
+
+        <Grid>
+            <TextBlock Margin="10,0,0,30" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Opacity="0.7" Foreground="White">Please wait</TextBlock>
+            <TextBlock Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Opacity="0.9" Foreground="white">We are looking for some delicious software updates...</TextBlock>
+        </Grid>
+    </Grid>
+</Window>
