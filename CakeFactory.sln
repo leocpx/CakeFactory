@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBManager", "DBManager\DBMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityCake", "UnityCake\UnityCake.csproj", "{667A318D-8E9D-41DF-958F-CC130CE7064B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCake", "CoreCake\CoreCake.csproj", "{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{667A318D-8E9D-41DF-958F-CC130CE7064B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{667A318D-8E9D-41DF-958F-CC130CE7064B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{667A318D-8E9D-41DF-958F-CC130CE7064B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B} = {C817BB47-DBD9-4995-BEE2-B91FC5B7049C}
 		{965AFA51-B10D-4595-9546-77739B2B4BA9} = {C817BB47-DBD9-4995-BEE2-B91FC5B7049C}
 		{667A318D-8E9D-41DF-958F-CC130CE7064B} = {C817BB47-DBD9-4995-BEE2-B91FC5B7049C}
+		{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD} = {C817BB47-DBD9-4995-BEE2-B91FC5B7049C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {338DE5A4-EFC9-47A6-91D0-8A8F71488606}

@@ -14,8 +14,32 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock>MainApplication</TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <ContentControl Content="{Binding MainMenu}" Grid.Row="1"/>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <ContentControl Content="{Binding SecondMenu}" Grid.Row="1"/>
+        </Grid>
+
+        <ContentControl Content="{Binding MainDisplay}" Grid.Column="2"/>
+
     </Grid>
 </Window>

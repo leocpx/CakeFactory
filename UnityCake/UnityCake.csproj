@@ -77,11 +77,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\CloseLoginDialogEvent.cs" />
+    <Compile Include="Events\AskLoggedUser.cs" />
+    <Compile Include="Events\MenuItemClickedEvent.cs" />
+    <Compile Include="Events\SetMainMenuItems.cs" />
+    <Compile Include="Events\ReplyLoggedUser.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreCake\CoreCake.csproj">
+      <Project>{7D0D4768-8331-4B46-AEAB-3E0092D5A4AD}</Project>
+      <Name>CoreCake</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBManager\DBManager.csproj">
+      <Project>{965afa51-b10d-4595-9546-77739b2b4ba9}</Project>
+      <Name>DBManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

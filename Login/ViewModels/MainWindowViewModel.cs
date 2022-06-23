@@ -1,5 +1,5 @@
-﻿using DBManager;
-using Login.Models;
+﻿using CoreCake;
+using DBManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +17,7 @@ namespace Login.ViewModels
         #region -- PROPERTIES --
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand ConnectCommand => new DefaultCommand(ConnectAction);
+        public ICommand ConnectCommand => new DefaultCommand(ConnectAction,()=>true);
 
         private string _user;
         public string User
