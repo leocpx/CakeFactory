@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DBManager.Tables;
+using Main.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,10 @@ namespace Main
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(Users user)
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel(user);
         }
     }
 }

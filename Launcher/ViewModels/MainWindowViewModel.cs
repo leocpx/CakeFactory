@@ -118,7 +118,7 @@ namespace Launcher.ViewModels
                 {
                     Thread.Sleep(2000);
                     ProgressValue = 4000;
-                    var mainApp = Directory.GetCurrentDirectory() + "\\main.exe";
+                    var mainApp = Directory.GetCurrentDirectory() + "\\Login.exe";
                     Application.Current.Dispatcher.Invoke(() => Process.Start(mainApp));
                     Application.Current.Dispatcher.Invoke(App.Current.Shutdown);
                 }).Start();

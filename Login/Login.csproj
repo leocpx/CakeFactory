@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A9788351-F1F3-4C46-807D-018C43206C8F}</ProjectGuid>
+    <ProjectGuid>{B90BD1C6-7E38-46FB-9714-1EE7F2A76271}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Main</RootNamespace>
-    <AssemblyName>Main</AssemblyName>
+    <RootNamespace>Login</RootNamespace>
+    <AssemblyName>Login</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -43,18 +43,11 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=4.5.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.4.5.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-    </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59" />
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,6 +82,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DefaultCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,14 +114,14 @@
       <Project>{965afa51-b10d-4595-9546-77739b2b4ba9}</Project>
       <Name>DBManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Main\Main.csproj">
+      <Project>{a9788351-f1f3-4c46-807d-018c43206c8f}</Project>
+      <Name>Main</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnityCake\UnityCake.csproj">
       <Project>{667a318d-8e9d-41df-958f-cc130ce7064b}</Project>
       <Name>UnityCake</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets')" />
