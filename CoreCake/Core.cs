@@ -36,6 +36,9 @@ namespace CoreCake
                 case MenuItems.back_to_mainmenu:
                     return "< BACK TO MAIN MENU";
 
+                case MenuItems.logout:
+                    return "LOG OUT";
+
                 default:
                     return "";
             }
@@ -51,6 +54,8 @@ namespace CoreCake
         reports,
         sales,
         program_settings,
-        back_to_mainmenu
+        back_to_mainmenu,
+        personal_login_account,
+        logout
     }
 }

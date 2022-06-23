@@ -76,11 +76,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\AskSecondMenuEvent.cs" />
     <Compile Include="Events\CloseLoginDialogEvent.cs" />
     <Compile Include="Events\AskLoggedUser.cs" />
     <Compile Include="Events\MenuItemClickedEvent.cs" />
+    <Compile Include="Events\ReplySecondMenuEvent.cs" />
+    <Compile Include="Events\SetDisplayHeaderEvent.cs" />
+    <Compile Include="Events\SetMainMenuHeaderEvent.cs" />
     <Compile Include="Events\SetMainMenuItems.cs" />
     <Compile Include="Events\ReplyLoggedUser.cs" />
+    <Compile Include="Events\SetSecondMenuHeaderEvent.cs" />
+    <Compile Include="Events\SetSecondMenuItems.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

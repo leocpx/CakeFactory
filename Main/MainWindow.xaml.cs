@@ -22,6 +22,18 @@ namespace Main
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainWindow()
+        {
+            InitializeComponent();
+            var testUser = new Users()
+            { 
+                id = 1,
+                _level = 1,
+                _user = "admin"
+            };
+
+            DataContext = new MainWindowViewModel(testUser);
+        }
         public MainWindow(Users user)
         {
             InitializeComponent();

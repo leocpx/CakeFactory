@@ -11,13 +11,14 @@ using UnityCake.Events;
 
 namespace Main.ViewModels.Menus
 {
-    public class MainMenuControlViewModel : GUIEntity
+    public class SecondMenuViewModel : GUIEntity
     {
 
         #region -- PROPERTIES --
         #region -- PUBLIC --
         #region -- BINDED --
         public ObservableCollection<UserControl> MenuItems { get; set; }
+
         #endregion
 
         #endregion
@@ -27,11 +28,11 @@ namespace Main.ViewModels.Menus
         #endregion
 
         #region -- CONSTRUCTOR --
-        public MainMenuControlViewModel()
+        public SecondMenuViewModel()
         {
             _ea = UnityCake.Unity.EventAggregator;
 
-            _ea.GetEvent<SetMainMenuItemsEvent>().Subscribe(
+            _ea.GetEvent<SetSecondMenuItems>().Subscribe(
                 items =>
                 {
                     MenuItems = new ObservableCollection<UserControl>(items);

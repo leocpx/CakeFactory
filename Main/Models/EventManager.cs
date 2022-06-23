@@ -19,6 +19,7 @@ namespace Main.Models
         #region -- PRIVATE --
         private Users _loggedUser { get; set; }
         private EventAggregator _ea { get; set; }
+        private Func<UserControl> _secondMenuGetter { get; set; }
         #endregion
         #endregion
 
@@ -36,6 +37,13 @@ namespace Main.Models
         #region -- EVENT SERVICES --
         private void InitEventService()
         {
+            _ea.GetEvent<AskSecondMenuEvent>().Publish();
+            _ea.GetEvent<ReplySecondMenuEvent>().Subscribe(
+                sme =>
+                {
+                    _secondMenuGetter = sme;
+                });
+
             _ea.GetEvent<AskLoggedUser>().Subscribe(
                 () =>
                 {
@@ -44,7 +52,6 @@ namespace Main.Models
 
             _ea.GetEvent<MenuItemClickedEvent>().Subscribe(ExecuteMenuItemClicked);
         }
-
         #endregion
 
         #region -- HELPERS --
@@ -61,6 +68,7 @@ namespace Main.Models
                 case MenuItems.production_planning:
                     break;
                 case MenuItems.account_administration:
+                    ManageAccountAdministration();
                     break;
                 case MenuItems.inventory_management:
                     break;
@@ -69,12 +77,24 @@ namespace Main.Models
                 case MenuItems.sales:
                     break;
                 case MenuItems.back_to_mainmenu:
-                    _ea.GetEvent<SetMainMenuItems>().Publish(GetMainMenuItems());
+                    _ea.GetEvent<SetMainMenuItemsEvent>().Publish(GetMainMenuItems());
+                    _ea.GetEvent<ShrinkSecondMenuEvent>().Publish();
+                    break;
+
+                case MenuItems.logout:
+                    _ea.GetEvent<CloseMainWindowEvent>().Publish();
                     break;
                 default:
                     break;
             }
         }
+        #region -- execute menu item clicked functions --
+        private void ManageAccountAdministration()
+        {
+            _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
+            _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("ACCOUNT ADMINISTRATION");
+        }
+        #endregion
 
         public List<UserControl> GetMainMenuItems()
         {

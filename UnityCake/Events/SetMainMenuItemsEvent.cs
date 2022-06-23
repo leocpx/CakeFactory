@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace UnityCake.Events
 {
-    public class SetMainMenuItems : PubSubEvent<List<UserControl>>
+    public class SetMainMenuItemsEvent: PubSubEvent<List<UserControl>>
     {
     }
 }

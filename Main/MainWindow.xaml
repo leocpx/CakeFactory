@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:Main"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
+        TextElement.FontWeight="Normal"
         TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
@@ -17,29 +17,58 @@
         WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="6*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="5*"/>
-            </Grid.RowDefinitions>
-            <ContentControl Content="{Binding MainMenu}" Grid.Row="1"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="5">
+                <TextBlock>Logged in as</TextBlock>
+                <TextBlock Text="{Binding UserDisplayName}"/>
+            </StackPanel>
         </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding MainMenuColumnWidth}"/>
+                <ColumnDefinition Width="{Binding SecondMenuColumnWidth}"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="5*"/>
-            </Grid.RowDefinitions>
-            <ContentControl Content="{Binding SecondMenu}" Grid.Row="1"/>
+
+            <GroupBox Grid.Column="0" Header="{Binding MainMenuHeader}" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="121*"/>
+                        <ColumnDefinition Width="118*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <ContentControl Content="{Binding MainMenu}" Grid.Row="1" Grid.ColumnSpan="2"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Header="{Binding SecondMenuHeader}" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <ContentControl Content="{Binding SecondMenu}" Grid.Row="1"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Column="2" Header="{Binding DisplayHeader}" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <ContentControl Content="{Binding MainDisplay}" Grid.Column="2"/>
+                </Grid>
+            </GroupBox>
+
         </Grid>
-
-        <ContentControl Content="{Binding MainDisplay}" Grid.Column="2"/>
-
     </Grid>
 </Window>
