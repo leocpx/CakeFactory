@@ -18,6 +18,10 @@ namespace CoreCake
             canExecute = _canExecute;
         }
 
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
         public bool CanExecute(object parameter) => canExecute();
 
         public void Execute(object parameter)

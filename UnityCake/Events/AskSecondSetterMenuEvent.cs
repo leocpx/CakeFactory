@@ -2,7 +2,7 @@
 
 namespace UnityCake.Events
 {
-    public class AskSecondMenuEvent : PubSubEvent
+    public class AskSecondSetterMenuEvent : PubSubEvent
     {
     }
 }

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Main.Views.Displays.CreateNewAccountView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Main.Views.Displays"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        
+            <ContentControl Grid.Column="0" Content="{Binding ExistingUsersControl}" VerticalAlignment="Top"/>
+        
+        <Grid Grid.Column="1" Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Row="0" Margin="5">
+                <TextBlock>Full Name</TextBlock>
+                <TextBox Text="{Binding FullName}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5">
+                <TextBlock>User Name</TextBlock>
+                <TextBox Text="{Binding UserName}" Width="300" HorizontalAlignment="Left"/>
+                <TextBlock Foreground="Red" Visibility="{Binding UserNameErrorVisibility}">user name taken</TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="2" Margin="5">
+                <TextBlock>Password</TextBlock>
+                <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="3" Margin="5">
+                <TextBlock>Access Level</TextBlock>
+                <ComboBox SelectedIndex="{Binding UserLevel}" Width="300" HorizontalAlignment="Left">
+                    <ComboBoxItem>Admin</ComboBoxItem>
+                    <ComboBoxItem>Operator</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <Button 
+                Width="300" 
+                Grid.Row="4" 
+                HorizontalAlignment="Left" 
+                Command="{Binding CreateNewUserCommand}"
+                >CREATE NEW USER</Button>
+        </Grid>
+    </Grid>
+</UserControl>

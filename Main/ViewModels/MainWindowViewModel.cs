@@ -113,6 +113,16 @@ namespace Main.ViewModels
             LoggedUser = user;
             UserDisplayName = LoggedUser._user;
             _ea = UnityCake.Unity.EventAggregator;
+            _ea.GetEvent<AskSecondSetterMenuEvent>().Subscribe(
+                () =>
+                {
+                    _ea.GetEvent<ReplySecondMenuSetterEvent>().Publish((v) => SecondMenu=v);
+                });
+            _ea.GetEvent<AskDisplayMenuSetterEvent>().Subscribe(
+                () =>
+                {
+                    _ea.GetEvent<ReplyDisplaySetterEvent>().Publish((v) => MainDisplay = v);
+                });
             _eventManager = new Models.EventManager(LoggedUser);
             InitMainWindowControls();
         }
@@ -129,11 +139,7 @@ namespace Main.ViewModels
             _ea.GetEvent<SetMainMenuHeaderEvent>().Subscribe(s => MainMenuHeader = s);
             _ea.GetEvent<SetSecondMenuHeaderEvent>().Subscribe(s => SecondMenuHeader = s);
             _ea.GetEvent<SetDisplayHeaderEvent>().Subscribe(s => DisplayHeader = s);
-            _ea.GetEvent<AskSecondMenuEvent>().Subscribe(
-                () =>
-                {
-                    _ea.GetEvent<ReplySecondMenuEvent>().Publish(() => SecondMenu);
-                });
+
 
             _ea.GetEvent<ExpandSecondMenuEvent>().Subscribe(ExpandSecondMenuColumn);
             _ea.GetEvent<ShrinkSecondMenuEvent>().Subscribe(ShrinkSecondMenuColumn);

@@ -37,11 +37,19 @@ namespace DBManager
                 CreateDefaultUser();
                 usersTable = _muSql.GetTable<Users>();
             }
-            
 
-            return usersTable.FirstOrDefault(u=>u._user == user && u._pass == GetHASH256(pass));
+
+            return usersTable.FirstOrDefault(u => u._user == user && u._pass == GetHASH256(pass));
         }
 
+
+        public static List<Users> GetUserList()
+        {
+            return _muSql.GetTable<Users>();
+        }
+        #endregion
+
+        #region ---- PRIVATE --
         private static void CreateDefaultUser()
         {
 
@@ -55,9 +63,10 @@ namespace DBManager
 
             _muSql.InsertEntry(newUser);
         }
-        #endregion
-
-        #region ---- PRIVATE --
+        public static void RegisterNewUser(Users user)
+        {
+            _muSql.InsertEntry(user);
+        }
 
         private static void CheckTable<T>() where T : new()
         {
@@ -79,6 +88,7 @@ namespace DBManager
 
             return result;
         }
+
         #endregion
         #endregion
         #endregion

@@ -39,6 +39,18 @@ namespace CoreCake
                 case MenuItems.logout:
                     return "LOG OUT";
 
+                case MenuItems.create_new_account:
+                    return "CREATE NEW ACCOUNT";
+
+                case MenuItems.modify_account:
+                    return "MODIFY ACCOUNT";
+
+                case MenuItems.delete_account:
+                    return "DELETE ACCOUNT";
+
+                case MenuItems.close_secondMenu:
+                    return "< BACK";
+
                 default:
                     return "";
             }
@@ -56,6 +68,10 @@ namespace CoreCake
         program_settings,
         back_to_mainmenu,
         personal_login_account,
-        logout
+        logout,
+        create_new_account,
+        modify_account,
+        delete_account,
+        close_secondMenu
     }
 }

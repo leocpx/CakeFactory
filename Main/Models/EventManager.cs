@@ -1,6 +1,9 @@
 ﻿using CoreCake;
+using DBManager;
 using DBManager.Tables;
+using Main.Views.Displays;
 using Main.Views.MenuItems;
+using Main.Views.Menus;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -19,7 +22,10 @@ namespace Main.Models
         #region -- PRIVATE --
         private Users _loggedUser { get; set; }
         private EventAggregator _ea { get; set; }
-        private Func<UserControl> _secondMenuGetter { get; set; }
+        private Action<UserControl> _secondMenuSetter { get; set; }
+        private Action<UserControl> _displayMenuSetter { get; set; }
+        private SubscriptionToken _subscriptionToken1 { get; set; }
+        private SubscriptionToken _subscriptionToken2 { get; set; }
         #endregion
         #endregion
 
@@ -37,11 +43,17 @@ namespace Main.Models
         #region -- EVENT SERVICES --
         private void InitEventService()
         {
-            _ea.GetEvent<AskSecondMenuEvent>().Publish();
-            _ea.GetEvent<ReplySecondMenuEvent>().Subscribe(
-                sme =>
+            #region -- SUBSCRIPTIONS --
+            _ea.GetEvent<ReplySecondMenuSetterEvent>().Subscribe(
+                sms =>
+        {
+            _secondMenuSetter = sms;
+        });
+
+            _ea.GetEvent<ReplyDisplaySetterEvent>().Subscribe(
+                dms =>
                 {
-                    _secondMenuGetter = sme;
+                    _displayMenuSetter = dms;
                 });
 
             _ea.GetEvent<AskLoggedUser>().Subscribe(
@@ -51,6 +63,23 @@ namespace Main.Models
                 });
 
             _ea.GetEvent<MenuItemClickedEvent>().Subscribe(ExecuteMenuItemClicked);
+
+            _ea.GetEvent<AskUsersList>().Subscribe(
+                () =>
+                {
+                    _ea.GetEvent<ReplyUsersList>().Publish(DBManager.DbClient.GetUserList());
+                });
+
+            _ea.GetEvent<RegisterNewUserEvent>().Subscribe(DbClient.RegisterNewUser);
+            #endregion
+
+
+            #region -- PUBLISHES --
+
+            _ea.GetEvent<AskSecondSetterMenuEvent>().Publish();
+            _ea.GetEvent<AskDisplayMenuSetterEvent>().Publish(); 
+            #endregion
+
         }
         #endregion
 
@@ -81,8 +110,18 @@ namespace Main.Models
                     _ea.GetEvent<ShrinkSecondMenuEvent>().Publish();
                     break;
 
+                case MenuItems.close_secondMenu:
+                    _secondMenuSetter(null);
+                    _ea.GetEvent<ShrinkSecondMenuEvent>().Publish();
+                    break;
+
                 case MenuItems.logout:
                     _ea.GetEvent<CloseMainWindowEvent>().Publish();
+                    break;
+
+                case MenuItems.create_new_account:
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("CREATE NEW ACCOUNT");
+                    _displayMenuSetter(new CreateNewAccountView());
                     break;
                 default:
                     break;
@@ -91,9 +130,37 @@ namespace Main.Models
         #region -- execute menu item clicked functions --
         private void ManageAccountAdministration()
         {
+            _secondMenuSetter(new SecondMenuControlView());
             _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
             _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("ACCOUNT ADMINISTRATION");
+            _ea.GetEvent<SetSecondMenuItems>().Publish(GetAccountAdministrationSubItems());
         }
+        private List<UserControl> GetAccountAdministrationSubItems()
+        {
+            switch (_loggedUser._level)
+            {
+                // ADMINISTRATOR MENU ITEMS
+                case 1:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.create_new_account),
+                        new MenuItemView(CoreCake.MenuItems.modify_account),
+                        new MenuItemView(CoreCake.MenuItems.delete_account),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                    };
+
+                // OPERATOR MENU ITEMS
+                case 2:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.modify_account),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                    };
+                default:
+                    return null;
+            }
+        }
+
         #endregion
 
         public List<UserControl> GetMainMenuItems()
@@ -110,6 +177,7 @@ namespace Main.Models
                         new MenuItemView(CoreCake.MenuItems.program_settings),
                         new MenuItemView(CoreCake.MenuItems.reports),
                         new MenuItemView(CoreCake.MenuItems.sales),
+                        new MenuItemView(CoreCake.MenuItems.logout),
                     };
 
                 // OPERATOR MENU ITEMS
@@ -119,6 +187,7 @@ namespace Main.Models
                         new MenuItemView(CoreCake.MenuItems.schedules),
                         new MenuItemView(CoreCake.MenuItems.account_administration),
                         new MenuItemView(CoreCake.MenuItems.inventory_management),
+                        new MenuItemView(CoreCake.MenuItems.logout),
                     };
 
                 default:

@@ -22,8 +22,8 @@
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="5">
-                <TextBlock>Logged in as</TextBlock>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="15">
+                <TextBlock>Logged in as:</TextBlock>
                 <TextBlock Text="{Binding UserDisplayName}"/>
             </StackPanel>
         </Grid>
@@ -65,7 +65,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="5*"/>
                     </Grid.RowDefinitions>
-                    <ContentControl Content="{Binding MainDisplay}" Grid.Column="2"/>
+                    <ContentControl Content="{Binding MainDisplay}" Grid.Row="1"/>
                 </Grid>
             </GroupBox>
 

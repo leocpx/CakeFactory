@@ -81,13 +81,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\EventManager.cs" />
+    <Compile Include="ViewModels\Displays\CreateNewAccountViewModel.cs" />
+    <Compile Include="ViewModels\Displays\ExistingAccountsListViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuItems\UserItemViewModel.cs" />
     <Compile Include="ViewModels\Menus\abstracts\GUIEntity.cs" />
     <Compile Include="ViewModels\Menus\MainMenuControlViewModel.cs" />
     <Compile Include="ViewModels\Menus\SecondMenuViewModel.cs" />
+    <Compile Include="Views\Displays\CreateNewAccountView.xaml.cs">
+      <DependentUpon>CreateNewAccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Displays\ExistingAccountsList.xaml.cs">
+      <DependentUpon>ExistingAccountsList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuItems\MenuItemView.xaml.cs">
       <DependentUpon>MenuItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuItems\UserItemView.xaml.cs">
+      <DependentUpon>UserItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menus\MainMenuControlView.xaml.cs">
       <DependentUpon>MainMenuControlView.xaml</DependentUpon>
@@ -107,7 +119,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Displays\CreateNewAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Displays\ExistingAccountsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MenuItems\MenuItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuItems\UserItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
