@@ -10,7 +10,4 @@ namespace UnityCake.Events
 {
     public class RegisterNewUserEvent : PubSubEvent<Users>
     { }
-
-    public class UpdateExistingUserListEvent : PubSubEvent
-    { }
 }

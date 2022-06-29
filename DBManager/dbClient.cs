@@ -47,6 +47,14 @@ namespace DBManager
         {
             return _muSql.GetTable<Users>();
         }
+
+        public static List<RawGoodsInfo> GetRawGoodsInfoList()
+        {
+            if (!_muSql.TableExists<RawGoodsInfo>())
+                _muSql.CreateTable<RawGoodsInfo>();
+
+            return _muSql.GetTable<RawGoodsInfo>();
+        }
         #endregion
 
         #region ---- PRIVATE --
@@ -68,6 +76,10 @@ namespace DBManager
             _muSql.InsertEntry(user);
         }
 
+        public static void RegisterNewRawGoodInfo(RawGoodsInfo rawGood)
+        {
+            _muSql.InsertEntry(rawGood);
+        }
         private static void CheckTable<T>() where T : new()
         {
             if (!_muSql.TableExists<T>())

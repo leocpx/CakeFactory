@@ -77,20 +77,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\AskDisplayMenuSetterEvent.cs" />
+    <Compile Include="Events\AskRawGoodsInfoEvent.cs" />
     <Compile Include="Events\AskSecondSetterMenuEvent.cs" />
+    <Compile Include="Events\AskUsersListEvent.cs" />
     <Compile Include="Events\CloseLoginDialogEvent.cs" />
     <Compile Include="Events\AskLoggedUser.cs" />
     <Compile Include="Events\CloseMainWindowEvent.cs" />
     <Compile Include="Events\MenuItemClickedEvent.cs" />
+    <Compile Include="Events\RegisterNewRawGoodInfoEvent.cs" />
     <Compile Include="Events\RegisterNewUserEvent.cs" />
+    <Compile Include="Events\RemoveIngredientItemFromRecipeEvent.cs" />
     <Compile Include="Events\ReplyDisplaySetterEvent.cs" />
+    <Compile Include="Events\ReplyRawGoodsInfoEvent.cs" />
     <Compile Include="Events\ReplySecondMenuSetterEvent.cs" />
+    <Compile Include="Events\ReplyUsersListEvent.cs" />
     <Compile Include="Events\SetDisplayHeaderEvent.cs" />
     <Compile Include="Events\SetMainMenuHeaderEvent.cs" />
     <Compile Include="Events\SetMainMenuItemsEvent.cs" />
     <Compile Include="Events\ReplyLoggedUser.cs" />
     <Compile Include="Events\SetSecondMenuHeaderEvent.cs" />
     <Compile Include="Events\SetSecondMenuItems.cs" />
+    <Compile Include="Events\UpdateExistingRawGoodsInfoEvent.cs" />
+    <Compile Include="Events\UpdateExistingUserListEvent.cs" />
+    <Compile Include="Events\UserItemCLickedEvent.cs" />
     <Compile Include="Unity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

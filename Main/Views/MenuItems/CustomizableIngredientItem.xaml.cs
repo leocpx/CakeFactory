@@ -1,4 +1,5 @@
-﻿using Main.ViewModels.MenuItems;
+﻿using DBManager.Tables;
+using Main.ViewModels.MenuItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,14 @@ using System.Windows.Shapes;
 namespace Main.Views.MenuItems
 {
     /// <summary>
-    /// Interaction logic for UserItemView.xaml
+    /// Interaction logic for CustomizableIngredientItem.xaml
     /// </summary>
-    public partial class UserItemView : UserControl
+    public partial class CustomizableIngredientItem : UserControl
     {
-        public UserItemView(string userName)
+        public CustomizableIngredientItem(RawGoodsInfo rgi)
         {
             InitializeComponent();
-            DataContext = new UserItemViewModel(userName);
+            DataContext = new CustomizableIngredientItemViewModel(rgi) { _userControl = this };
         }
     }
 }

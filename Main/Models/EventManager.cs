@@ -45,10 +45,11 @@ namespace Main.Models
         {
             #region -- SUBSCRIPTIONS --
             _ea.GetEvent<ReplySecondMenuSetterEvent>().Subscribe(
-                sms =>
-        {
-            _secondMenuSetter = sms;
-        });
+                        sms =>
+                {
+                    _secondMenuSetter = sms;
+                });
+
 
             _ea.GetEvent<ReplyDisplaySetterEvent>().Subscribe(
                 dms =>
@@ -56,21 +57,41 @@ namespace Main.Models
                     _displayMenuSetter = dms;
                 });
 
+
+
             _ea.GetEvent<AskLoggedUser>().Subscribe(
                 () =>
                 {
                     _ea.GetEvent<ReplyLoggedUser>().Publish(_loggedUser);
                 });
 
-            _ea.GetEvent<MenuItemClickedEvent>().Subscribe(ExecuteMenuItemClicked);
 
-            _ea.GetEvent<AskUsersList>().Subscribe(
+
+            _ea.GetEvent<AskRawGoodsInfoEvent>().Subscribe(
                 () =>
                 {
-                    _ea.GetEvent<ReplyUsersList>().Publish(DBManager.DbClient.GetUserList());
+                    _ea.GetEvent<ReplyRawGoodsInfoEvent>().Publish(DBManager.DbClient.GetRawGoodsInfoList());
                 });
 
+
+
+            _ea.GetEvent<MenuItemClickedEvent>().Subscribe(ExecuteMenuItemClicked);
+
+
+
+            _ea.GetEvent<AskUsersListEvent>().Subscribe(
+                () =>
+                {
+                    _ea.GetEvent<ReplyUsersListEvent>().Publish(DBManager.DbClient.GetUserList());
+                });
+
+
+
             _ea.GetEvent<RegisterNewUserEvent>().Subscribe(DbClient.RegisterNewUser);
+
+
+
+            _ea.GetEvent<RegisterNewRawGoodInfoEvent>().Subscribe(DbClient.RegisterNewRawGoodInfo);
             #endregion
 
 
@@ -99,12 +120,26 @@ namespace Main.Models
                 case MenuItems.account_administration:
                     ManageAccountAdministration();
                     break;
+
                 case MenuItems.inventory_management:
+                    _secondMenuSetter(new SecondMenuControlView());
+                    _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
+                    _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("INVENTORY MANAGEMENT");
                     break;
+
+                case MenuItems.database_management:
+                    _secondMenuSetter(new SecondMenuControlView());
+                    _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("DATABASE MANAGEMENT");
+                    _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
+                    _ea.GetEvent<SetSecondMenuItems>().Publish(GetDatabaseManagementItems());
+                    break;
+
                 case MenuItems.reports:
                     break;
+
                 case MenuItems.sales:
                     break;
+
                 case MenuItems.back_to_mainmenu:
                     _ea.GetEvent<SetMainMenuItemsEvent>().Publish(GetMainMenuItems());
                     _ea.GetEvent<ShrinkSecondMenuEvent>().Publish();
@@ -115,19 +150,73 @@ namespace Main.Models
                     _ea.GetEvent<ShrinkSecondMenuEvent>().Publish();
                     break;
 
+                case MenuItems.create_new_account:
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("CREATE NEW ACCOUNT");
+                    _displayMenuSetter(new CreateNewAccountView());
+                    break;
+
+                case MenuItems.program_settings:
+                    _secondMenuSetter(new SecondMenuControlView());
+                    _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
+                    _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("PROGRAM SETTINGS");
+                    _ea.GetEvent<SetSecondMenuItems>().Publish(GetProgramSettingsItems());
+                    break;
+
                 case MenuItems.logout:
                     _ea.GetEvent<CloseMainWindowEvent>().Publish();
                     break;
 
-                case MenuItems.create_new_account:
-                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("CREATE NEW ACCOUNT");
-                    _displayMenuSetter(new CreateNewAccountView());
+
+                case MenuItems.register_new_raw_goods:
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("CREATE NEW RAW GOOD");
+                    _displayMenuSetter(new CreateNewRawGoods());
+
+                    break;
+
+                case MenuItems.register_new_finished_goods:
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("CREATE NEW FINISHED GOOD");
+                    _displayMenuSetter(new CreateNewFinishedGoods());
                     break;
                 default:
                     break;
             }
         }
         #region -- execute menu item clicked functions --
+        private List<UserControl> GetDatabaseManagementItems()
+        {
+            return new List<UserControl>()
+            {
+                new MenuItemView(CoreCake.MenuItems.register_new_raw_goods),
+                new MenuItemView(CoreCake.MenuItems.register_new_finished_goods),
+                new MenuItemView(CoreCake.MenuItems.modify_raw_good_info),
+                new MenuItemView(CoreCake.MenuItems.modify_finished_good_info),
+                new MenuItemView(CoreCake.MenuItems.delete_raw_good_info),
+                new MenuItemView(CoreCake.MenuItems.delete_finished_good_info),
+                new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+            };
+        }
+        private List<UserControl> GetProgramSettingsItems()
+        {
+            switch (_loggedUser._level)
+            {
+                // ADMINISTRATOR MENU ITEMS
+                case 1:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.sql_connection_settings),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                    };
+
+                // OPERATOR MENU ITEMS
+                case 2:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                    };
+                default:
+                    return null;
+            }
+        }
         private void ManageAccountAdministration()
         {
             _secondMenuSetter(new SecondMenuControlView());
@@ -173,6 +262,7 @@ namespace Main.Models
                     {
                         new MenuItemView(CoreCake.MenuItems.production_planning),
                         new MenuItemView(CoreCake.MenuItems.inventory_management),
+                        new MenuItemView(CoreCake.MenuItems.database_management),
                         new MenuItemView(CoreCake.MenuItems.account_administration),
                         new MenuItemView(CoreCake.MenuItems.program_settings),
                         new MenuItemView(CoreCake.MenuItems.reports),

@@ -6,6 +6,8 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -147,7 +149,9 @@ namespace Main.ViewModels
             _ea.GetEvent<CloseMainWindowEvent>().Subscribe(
                 ()=>
                 {
-
+                    var mainApp = Directory.GetCurrentDirectory() + "\\Login.exe";
+                    Application.Current.Dispatcher.Invoke(() => Process.Start(mainApp));
+                    Application.Current.Dispatcher.Invoke(App.Current.Shutdown);
                 });
         }
 

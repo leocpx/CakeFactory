@@ -24,6 +24,9 @@ namespace CoreCake
                 case MenuItems.inventory_management:
                     return "INVENTORY MANAGEMENT";
 
+                case MenuItems.database_management:
+                    return "DATABASE MANAGEMENT";
+
                 case MenuItems.reports:
                     return "REPORTS";
 
@@ -51,6 +54,27 @@ namespace CoreCake
                 case MenuItems.close_secondMenu:
                     return "< BACK";
 
+                case MenuItems.sql_connection_settings:
+                    return "SQL CONNECTION SETTINGS";
+
+                case MenuItems.register_new_raw_goods:
+                    return "CREATE RAW GOODS";
+
+                case MenuItems.register_new_finished_goods:
+                    return "CREATE FINISHED GOODS";
+
+                case MenuItems.modify_raw_good_info:
+                    return "MODIFY RAW GOOD";
+
+                case MenuItems.modify_finished_good_info:
+                    return "MODIFY FINISHED GOOD";
+
+                case MenuItems.delete_raw_good_info:
+                    return "DELETE RAW GOOD";
+
+                case MenuItems.delete_finished_good_info:
+                    return "DELETE FINISHED GOOD";
+
                 default:
                     return "";
             }
@@ -63,6 +87,7 @@ namespace CoreCake
         production_planning,
         account_administration,
         inventory_management,
+        database_management,
         reports,
         sales,
         program_settings,
@@ -72,6 +97,13 @@ namespace CoreCake
         create_new_account,
         modify_account,
         delete_account,
-        close_secondMenu
+        close_secondMenu,
+        sql_connection_settings,
+        register_new_raw_goods,
+        register_new_finished_goods,
+        modify_raw_good_info,
+        delete_raw_good_info,
+        modify_finished_good_info,
+        delete_finished_good_info
     }
 }

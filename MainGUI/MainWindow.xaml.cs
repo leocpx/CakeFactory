@@ -1,4 +1,4 @@
-﻿using Main.ViewModels.MenuItems;
+﻿using DBManager.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +14,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Main.Views.MenuItems
+namespace MainGUI
 {
     /// <summary>
-    /// Interaction logic for UserItemView.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class UserItemView : UserControl
+    public partial class MainWindow : Window
     {
-        public UserItemView(string userName)
+        public MainWindow(Users user)
         {
             InitializeComponent();
-            DataContext = new UserItemViewModel(userName);
         }
     }
 }

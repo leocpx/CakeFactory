@@ -1,4 +1,4 @@
-﻿using Main.ViewModels.MenuItems;
+﻿using Main.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +14,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Main.Views.MenuItems
+namespace Main.Views.Displays
 {
     /// <summary>
-    /// Interaction logic for UserItemView.xaml
+    /// Interaction logic for CreateNewFinishedGoods.xaml
     /// </summary>
-    public partial class UserItemView : UserControl
+    public partial class CreateNewFinishedGoods : UserControl
     {
-        public UserItemView(string userName)
+        public CreateNewFinishedGoods()
         {
             InitializeComponent();
-            DataContext = new UserItemViewModel(userName);
+            DataContext = new CreateNewFinishedGoodsViewModel();
+        }
+
+        private void ListView_PreviewDrop(object sender, DragEventArgs e)
+        {
+            Console.WriteLine();
         }
     }
 }

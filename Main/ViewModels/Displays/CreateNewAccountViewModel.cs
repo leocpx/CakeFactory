@@ -90,8 +90,8 @@ namespace Main.ViewModels.Displays
         {
             ExistingUsersControl = new ExistingAccountsList();
 
-            _ea.GetEvent<ReplyUsersList>().Subscribe(users => UserList = users);
-            _ea.GetEvent<AskUsersList>().Publish();
+            _ea.GetEvent<ReplyUsersListEvent>().Subscribe(users => UserList = users);
+            _ea.GetEvent<AskUsersListEvent>().Publish();
         }
         #endregion
 
@@ -110,7 +110,7 @@ namespace Main.ViewModels.Displays
 
             _ea.GetEvent<RegisterNewUserEvent>().Publish(newUser);
             _ea.GetEvent<UpdateExistingUserListEvent>().Publish();
-            _ea.GetEvent<AskUsersList>().Publish();
+            _ea.GetEvent<AskUsersListEvent>().Publish();
             UpdateCreateButton();
         }
         #region -- HELPERS --

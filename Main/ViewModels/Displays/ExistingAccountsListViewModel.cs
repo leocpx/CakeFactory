@@ -32,7 +32,7 @@ namespace Main.ViewModels.Displays
         {
             _ea = UnityCake.Unity.EventAggregator;
 
-            _ea.GetEvent<ReplyUsersList>().Subscribe(
+            _ea.GetEvent<ReplyUsersListEvent>().Subscribe(
                 users =>
                 {
                     UsersListViewItems = GenerateUserControls(users);
@@ -49,7 +49,7 @@ namespace Main.ViewModels.Displays
         #region -- PUBLIC --
         public void LoadUserList()
         {
-            _ea.GetEvent<AskUsersList>().Publish();
+            _ea.GetEvent<AskUsersListEvent>().Publish();
         }
         #endregion
         #region -- PRIVATE --
