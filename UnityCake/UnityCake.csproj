@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\AskDisplayMenuSetterEvent.cs" />
+    <Compile Include="Events\AskFInishedGoodInfoEvent.cs" />
     <Compile Include="Events\AskRawGoodsInfoEvent.cs" />
     <Compile Include="Events\AskSecondSetterMenuEvent.cs" />
     <Compile Include="Events\AskUsersListEvent.cs" />
@@ -88,8 +89,10 @@
     <Compile Include="Events\RegisterNewFinishedGoodInfoEvent.cs" />
     <Compile Include="Events\RegisterNewRawGoodInfoEvent.cs" />
     <Compile Include="Events\RegisterNewUserEvent.cs" />
+    <Compile Include="Events\RemoveFinishedGoodScheduleItemEvent.cs" />
     <Compile Include="Events\RemoveIngredientItemFromRecipeEvent.cs" />
     <Compile Include="Events\ReplyDisplaySetterEvent.cs" />
+    <Compile Include="Events\ReplyFinishedGoodInfoEvent.cs" />
     <Compile Include="Events\ReplyRawGoodsInfoEvent.cs" />
     <Compile Include="Events\ReplySecondMenuSetterEvent.cs" />
     <Compile Include="Events\ReplyUsersListEvent.cs" />

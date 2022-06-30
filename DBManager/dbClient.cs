@@ -99,6 +99,14 @@ namespace DBManager
 
             _muSql.InsertEntries(finishedGoodDetails);
         }
+
+        public static List<FinishedGoodsInfo> GetFinishedGoodInfoList()
+        {
+            if (!_muSql.TableExists<FinishedGoodsDetails>())
+                _muSql.CreateTable<FinishedGoodsDetails>();
+
+            return _muSql.GetTable<FinishedGoodsInfo>();
+        }
         private static void CheckTable<T>() where T : new()
         {
             if (!_muSql.TableExists<T>())

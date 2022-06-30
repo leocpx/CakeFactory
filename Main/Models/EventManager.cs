@@ -64,6 +64,12 @@ namespace Main.Models
             _ea.GetEvent<RegisterNewRawGoodInfoEvent>().Subscribe(DbClient.RegisterNewRawGoodInfo);
             _ea.GetEvent<RegisterNewFinishedGoodInfoEvent>().Subscribe(DbClient.RegisterNewFinishedGoodInfo);
             _ea.GetEvent<RegisterFinishedGoodsDetailsEvent>().Subscribe(DbClient.RegisterFinishedGoodsDetails);
+            _ea.GetEvent<AskFInishedGoodInfoEvent>().Subscribe(
+                () =>
+                {
+                    _ea.GetEvent<ReplyFinishedGoodInfoEvent>().Publish(DbClient.GetFinishedGoodInfoList());
+                });
+
             #endregion
 
 
@@ -87,8 +93,16 @@ namespace Main.Models
             {
                 case MenuItems.schedules:
                     break;
+
                 case MenuItems.production_planning:
+                    _secondMenuSetter(new SecondMenuControlView());
+                    _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
+                    _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("FINISHED GOODS");
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULES");
+                    _displayMenuSetter(new AdminProductionPlanningView());
+                    _secondMenuSetter(new FinishedGoodListView());
                     break;
+
                 case MenuItems.account_administration:
                     ManageAccountAdministration();
                     break;
