@@ -1,6 +1,7 @@
 ﻿using CoreCake;
 using DBManager.Tables;
 using GongSolutions.Wpf.DragDrop;
+using Main.ViewModels.MenuItems;
 using Main.ViewModels.Menus.abstracts;
 using Main.Views.MenuItems;
 using System;
@@ -84,9 +85,42 @@ namespace Main.ViewModels
         #region -- ICOMMANDS --
         private void CreateFinishedGoodAction()
         {
+            var newFinishedGoodInfo = new FinishedGoodsInfo()
+            {
+                _authorId = CurrentUser.id,
+                _finishedGoodName = FinishedGoodName,
+                _retailprice = RetailPrice,
+                _wholesaleprice = WholeSalePrice
+            };
+            var finishedGoodsDetails = GenerateFinishedGoodDetails(newFinishedGoodInfo.id);
 
+            _ea.GetEvent<RegisterNewFinishedGoodInfoEvent>().Publish(newFinishedGoodInfo);
+            _ea.GetEvent<RegisterFinishedGoodsDetailsEvent>().Publish(finishedGoodsDetails);
         }
+        #region -- HELPERS --
+        private List<FinishedGoodsDetails> GenerateFinishedGoodDetails(long fgId)
+        {
+            var k = 0;
+            var result = CurrentRecipeListView.Select(
+                item =>
+                {
+                    var data = (CustomizableIngredientItemViewModel)item.DataContext;
+                    var newObject = new FinishedGoodsDetails()
+                    {
+                        _finishedGoodId = fgId,
+                        _rawGoodId = data._RawGoodsInfo.id,
+                        _quantity = long.Parse(data.Quantity),
+                        _unit = data.Unit.Split(':')[1]
+                    };
+                    newObject.id += k++;
+                    return newObject;
+                }).ToList();
 
+            return result;
+        }
+        #endregion
+
+        #region -- DRAG METHODS --
         public void DragEnter(IDropInfo dropInfo)
         {
 
@@ -109,7 +143,8 @@ namespace Main.ViewModels
             var droppedObject = dropInfo.Data as RawGoodItemView;
             var newIngredient = new CustomizableIngredientItem(droppedObject._RawGoodsInfo);
             CurrentRecipeListView.Add(newIngredient);
-        }
+        } 
+        #endregion
         #endregion
         #endregion
         #endregion

@@ -81,7 +81,7 @@
 
                 <StackPanel Grid.Row="2" Orientation="Vertical">
                     <TextBlock>Wholesale price</TextBlock>
-                    <TextBox Text="{Binding WholesalePrice}" Width="200" HorizontalAlignment="Left"/>
+                    <TextBox Text="{Binding WholeSalePrice}" Width="200" HorizontalAlignment="Left"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Orientation="Vertical">

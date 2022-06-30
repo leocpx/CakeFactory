@@ -84,6 +84,8 @@
     <Compile Include="Events\AskLoggedUser.cs" />
     <Compile Include="Events\CloseMainWindowEvent.cs" />
     <Compile Include="Events\MenuItemClickedEvent.cs" />
+    <Compile Include="Events\RegisterFinishedGoodsDetailsEvent.cs" />
+    <Compile Include="Events\RegisterNewFinishedGoodInfoEvent.cs" />
     <Compile Include="Events\RegisterNewRawGoodInfoEvent.cs" />
     <Compile Include="Events\RegisterNewUserEvent.cs" />
     <Compile Include="Events\RemoveIngredientItemFromRecipeEvent.cs" />

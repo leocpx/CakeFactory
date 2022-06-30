@@ -78,7 +78,26 @@ namespace DBManager
 
         public static void RegisterNewRawGoodInfo(RawGoodsInfo rawGood)
         {
+            if (!_muSql.TableExists<RawGoodsInfo>())
+                _muSql.CreateTable<RawGoodsInfo>();
+
             _muSql.InsertEntry(rawGood);
+        }
+
+        public static void RegisterNewFinishedGoodInfo(FinishedGoodsInfo finishedGood)
+        {
+            if (!_muSql.TableExists<FinishedGoodsInfo>())
+                _muSql.CreateTable<FinishedGoodsInfo>();
+
+            _muSql.InsertEntry(finishedGood);
+        }
+
+        public static void RegisterFinishedGoodsDetails(List<FinishedGoodsDetails> finishedGoodDetails)
+        {
+            if (!_muSql.TableExists<FinishedGoodsDetails>())
+                _muSql.CreateTable<FinishedGoodsDetails>();
+
+            _muSql.InsertEntries(finishedGoodDetails);
         }
         private static void CheckTable<T>() where T : new()
         {

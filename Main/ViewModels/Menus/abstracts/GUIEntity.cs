@@ -19,7 +19,7 @@ namespace Main.ViewModels.Menus.abstracts
         #endregion
 
         #region -- PRIVATE --
-        private Users user;
+        public Users CurrentUser;
         #endregion 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Main.ViewModels.Menus.abstracts
         {
             _ea = UnityCake.Unity.EventAggregator;
 
-            _ea.GetEvent<ReplyLoggedUser>().Subscribe(u => user = u);
+            _ea.GetEvent<ReplyLoggedUser>().Subscribe(u => CurrentUser = u);
             _ea.GetEvent<AskLoggedUser>().Publish();
         }
         #endregion

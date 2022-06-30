@@ -44,41 +44,15 @@ namespace Main.Models
         private void InitEventService()
         {
             #region -- SUBSCRIPTIONS --
-            _ea.GetEvent<ReplySecondMenuSetterEvent>().Subscribe(
-                        sms =>
-                {
-                    _secondMenuSetter = sms;
-                });
-
-
-            _ea.GetEvent<ReplyDisplaySetterEvent>().Subscribe(
-                dms =>
-                {
-                    _displayMenuSetter = dms;
-                });
-
-
-
-            _ea.GetEvent<AskLoggedUser>().Subscribe(
-                () =>
-                {
-                    _ea.GetEvent<ReplyLoggedUser>().Publish(_loggedUser);
-                });
-
-
-
+            _ea.GetEvent<ReplySecondMenuSetterEvent>().Subscribe(sms => _secondMenuSetter = sms);
+            _ea.GetEvent<ReplyDisplaySetterEvent>().Subscribe(dms => _displayMenuSetter = dms);
+            _ea.GetEvent<AskLoggedUser>().Subscribe(() => _ea.GetEvent<ReplyLoggedUser>().Publish(_loggedUser));
             _ea.GetEvent<AskRawGoodsInfoEvent>().Subscribe(
                 () =>
                 {
                     _ea.GetEvent<ReplyRawGoodsInfoEvent>().Publish(DBManager.DbClient.GetRawGoodsInfoList());
                 });
-
-
-
             _ea.GetEvent<MenuItemClickedEvent>().Subscribe(ExecuteMenuItemClicked);
-
-
-
             _ea.GetEvent<AskUsersListEvent>().Subscribe(
                 () =>
                 {
@@ -86,12 +60,10 @@ namespace Main.Models
                 });
 
 
-
             _ea.GetEvent<RegisterNewUserEvent>().Subscribe(DbClient.RegisterNewUser);
-
-
-
             _ea.GetEvent<RegisterNewRawGoodInfoEvent>().Subscribe(DbClient.RegisterNewRawGoodInfo);
+            _ea.GetEvent<RegisterNewFinishedGoodInfoEvent>().Subscribe(DbClient.RegisterNewFinishedGoodInfo);
+            _ea.GetEvent<RegisterFinishedGoodsDetailsEvent>().Subscribe(DbClient.RegisterFinishedGoodsDetails);
             #endregion
 
 
