@@ -26,6 +26,8 @@ namespace Main.Models
         private Action<UserControl> _displayMenuSetter { get; set; }
         private SubscriptionToken _subscriptionToken1 { get; set; }
         private SubscriptionToken _subscriptionToken2 { get; set; }
+
+        private UserControl _adminPlanningDisplay { get; set; }
         #endregion
         #endregion
 
@@ -69,13 +71,17 @@ namespace Main.Models
                 {
                     _ea.GetEvent<ReplyFinishedGoodInfoEvent>().Publish(DbClient.GetFinishedGoodInfoList());
                 });
+            _ea.GetEvent<FinishedGoodCategoryItemClickedEvent>().Subscribe(
+                category =>
+                {
+                    _secondMenuSetter(new FinishedGoodListView(category));
+                });
+        #endregion
 
-            #endregion
 
+        #region -- PUBLISHES --
 
-            #region -- PUBLISHES --
-
-            _ea.GetEvent<AskSecondSetterMenuEvent>().Publish();
+        _ea.GetEvent<AskSecondSetterMenuEvent>().Publish();
             _ea.GetEvent<AskDisplayMenuSetterEvent>().Publish(); 
             #endregion
 
@@ -99,8 +105,12 @@ namespace Main.Models
                     _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
                     _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("FINISHED GOODS");
                     _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULES");
-                    _displayMenuSetter(new AdminProductionPlanningView());
-                    _secondMenuSetter(new FinishedGoodListView());
+                    _ea.GetEvent<SetMainMenuHeaderEvent>().Publish("FINISHED GOODS CATEGORIES");
+                    _ea.GetEvent<SetMainMenuItemsEvent>().Publish(GetCategoryFinishedGoodMenuItems());
+
+                    _adminPlanningDisplay = _adminPlanningDisplay == null ? new AdminProductionPlanningView() : _adminPlanningDisplay;
+                    _displayMenuSetter(_adminPlanningDisplay);
+                    //_secondMenuSetter(new FinishedGoodListView());
                     break;
 
                 case MenuItems.account_administration:
@@ -168,6 +178,16 @@ namespace Main.Models
             }
         }
         #region -- execute menu item clicked functions --
+        private List<UserControl> GetCategoryFinishedGoodMenuItems()
+        {
+            var finishedGoods = DbClient.GetFinishedGoodInfoList().Select(fg=>fg._category).Distinct();
+            var result = finishedGoods.Select(fg =>(UserControl) new CategoryFinishedGoodItem(fg)).ToList();
+            result.Add(new MenuItemView(CoreCake.MenuItems.back_to_mainmenu));
+
+            return result;
+        }
+
+
         private List<UserControl> GetDatabaseManagementItems()
         {
             return new List<UserControl>()

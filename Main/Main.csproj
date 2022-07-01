@@ -94,6 +94,7 @@
     <Compile Include="ViewModels\Displays\Items\ScheduleCellViewModel.cs" />
     <Compile Include="ViewModels\Displays\Items\WorkerScheduleViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MenuItems\CategoryFinishedGoodItemViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\CustomizableIngredientItemViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\FinishedGoodItemViewModel.cs" />
     <Compile Include="ViewModels\Menus\FinishedGoodListViewModel.cs" />
@@ -129,6 +130,9 @@
     </Compile>
     <Compile Include="Views\Displays\Items\WorkerScheduleView.xaml.cs">
       <DependentUpon>WorkerScheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuItems\CategoryFinishedGoodItem.xaml.cs">
+      <DependentUpon>CategoryFinishedGoodItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuItems\CustomizableIngredientItem.xaml.cs">
       <DependentUpon>CustomizableIngredientItem.xaml</DependentUpon>
@@ -199,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Displays\Items\WorkerScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuItems\CategoryFinishedGoodItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

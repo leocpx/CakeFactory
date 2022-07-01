@@ -52,6 +52,13 @@ namespace Main.ViewModels
 
 
 
+        private string _category;
+        public string Category
+        {
+            get { return _category; }
+            set { _category = value.Split(':')[1]; }
+        }
+
         #region -- ICOMMANDS --
         public ICommand CreateFinishedGoodCommand => new DefaultCommand(CreateFinishedGoodAction, () => true);
         #endregion
@@ -90,7 +97,8 @@ namespace Main.ViewModels
                 _authorId = CurrentUser.id,
                 _finishedGoodName = FinishedGoodName,
                 _retailprice = RetailPrice,
-                _wholesaleprice = WholeSalePrice
+                _wholesaleprice = WholeSalePrice,
+                _category = Category,
             };
             var finishedGoodsDetails = GenerateFinishedGoodDetails(newFinishedGoodInfo.id);
 

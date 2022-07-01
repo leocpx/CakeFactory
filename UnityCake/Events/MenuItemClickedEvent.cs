@@ -9,6 +9,5 @@ using System.Threading.Tasks;
 namespace UnityCake.Events
 {
     public class MenuItemClickedEvent : PubSubEvent<MenuItems>
-    {
-    }
+    { }
 }

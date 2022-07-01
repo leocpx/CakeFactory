@@ -27,6 +27,11 @@ namespace Main.ViewModels.MenuItems
         {
             FinishedGoodItems = GenerateFinishedGoodItemControls();
         }
+
+        public FinishedGoodListViewModel(string categoryName) : base()
+        {
+            FinishedGoodItems = GenerateFinishedGoodItemControls(categoryName);
+        }
         #endregion
 
         #region -- FUNCTIONS --
@@ -38,6 +43,19 @@ namespace Main.ViewModels.MenuItems
                 finishedGoods =>
                 {
                     var finishedGoodList = finishedGoods.Select(fg => new FinishedGoodItemView(fg));
+                    result = new ObservableCollection<UserControl>(finishedGoodList);
+                });
+
+            _ea.GetEvent<AskFInishedGoodInfoEvent>().Publish();
+            return result;
+        }
+        private ObservableCollection<UserControl> GenerateFinishedGoodItemControls(string cateogryName)
+        {
+            var result = new ObservableCollection<UserControl>();
+            _ea.GetEvent<ReplyFinishedGoodInfoEvent>().Subscribe(
+                finishedGoods =>
+                {
+                    var finishedGoodList = finishedGoods.Where(fg=>fg._category== cateogryName).Select(fg => new FinishedGoodItemView(fg));
                     result = new ObservableCollection<UserControl>(finishedGoodList);
                 });
 

@@ -17,20 +17,14 @@ using System.Windows.Shapes;
 namespace Main.Views.MenuItems
 {
     /// <summary>
-    /// Interaction logic for FinishedGoodListView.xaml
+    /// Interaction logic for CategoryFinishedGoodItem.xaml
     /// </summary>
-    public partial class FinishedGoodListView : UserControl
+    public partial class CategoryFinishedGoodItem : UserControl
     {
-        public FinishedGoodListView()
+        public CategoryFinishedGoodItem(string CategoryName)
         {
             InitializeComponent();
-            DataContext = new FinishedGoodListViewModel();
-        }
-
-        public FinishedGoodListView(string categoryName)
-        {
-            InitializeComponent();
-            DataContext = new FinishedGoodListViewModel(categoryName);
+            DataContext = new CategoryFinishedGoodItemViewModel(CategoryName);
         }
     }
 }

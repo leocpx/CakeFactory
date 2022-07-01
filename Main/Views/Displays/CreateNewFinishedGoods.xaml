@@ -89,6 +89,28 @@
                     <TextBox Text="{Binding RetailPrice}" Width="200" HorizontalAlignment="Left"/>
                 </StackPanel>
 
+                <StackPanel Grid.Row="4" Orientation="Vertical">
+                    <TextBlock>Category</TextBlock>
+                    <ComboBox SelectedValue="{Binding Category}" Width="200" HorizontalAlignment="Left">
+                        <ComboBoxItem>Milk Enrober</ComboBoxItem>
+                        <ComboBoxItem>Dark Enrober</ComboBoxItem>
+                        <ComboBoxItem>Clusters</ComboBoxItem>
+                        <ComboBoxItem>Everyday Molds</ComboBoxItem>
+                        <ComboBoxItem>Non Pareils</ComboBoxItem>
+                        <ComboBoxItem>Heat Room</ComboBoxItem>
+                        <ComboBoxItem>Fudge</ComboBoxItem>
+                        <ComboBoxItem>Prep Work</ComboBoxItem>
+                        <ComboBoxItem>Christmas</ComboBoxItem>
+                        <ComboBoxItem>Easter</ComboBoxItem>
+                        <ComboBoxItem>Valentines Day</ComboBoxItem>
+                        <ComboBoxItem>Mothers Day</ComboBoxItem>
+                        <ComboBoxItem>Fathers Day</ComboBoxItem>
+                        <ComboBoxItem>St Patricks Day</ComboBoxItem>
+                        <ComboBoxItem>Admins Day</ComboBoxItem>
+                        <ComboBoxItem>Secretaries Day</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
                 <Button Grid.Row="5" Width="200" HorizontalAlignment="Left" Command="{Binding CreateFinishedGoodCommand}">CREATE FINISHED GOOD</Button>
             </Grid>
 

@@ -22,6 +22,10 @@ namespace DBManager.Tables
         public string _retailprice { get; set; }
 
 
+        [SQLColumn(SQLColumnType.Varchar,"_category",true, false)]
+        public string _category { get; set; }
+
+
         [SQLColumn(SQLColumnType.BigInt, "_authorId", true, false)]
         public Int64 _authorId { get; set; }
 
