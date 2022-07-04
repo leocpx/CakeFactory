@@ -126,6 +126,9 @@
     <Compile Include="Views\Displays\Items\FinishedGoodScheduleItemView.xaml.cs">
       <DependentUpon>FinishedGoodScheduleItemView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Displays\Items\RecipeItemView.xaml.cs">
+      <DependentUpon>RecipeItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Displays\Items\ScheduleCellView.xaml.cs">
       <DependentUpon>ScheduleCellView.xaml</DependentUpon>
     </Compile>
@@ -199,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Displays\Items\FinishedGoodScheduleItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Displays\Items\RecipeItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,13 +13,15 @@ namespace DBManager
     public static class DbClient
     {
         #region -- PROPERTIES --
+        #region -- PUBLIC --
+        #endregion
 
         #region ---- PRIVATE --
+        private static MuSQL _muSql { get; set; } = new MuSQL(ConfigLoader.LoadConfigs()); 
         public static string _sqlConfigFilePath { get; set; } = "SqlConfig.ini";
         public static string DefaultAdminPassword { get; set; } = "cakeFactory";
         public static string DefaultUser { get; set; } = "admin";
-        public static string SqlConfigFilePath => Path.Combine(Directory.GetCurrentDirectory(), DbClient._sqlConfigFilePath);
-        private static MuSQL _muSql { get; set; } = new MuSQL(ConfigLoader.LoadConfigs());
+        public static string SqlConfigFilePath => Path.Combine(Directory.GetCurrentDirectory(), "SqlConfig.ini");
         #endregion
 
         #endregion
@@ -84,6 +86,16 @@ namespace DBManager
             _muSql.InsertEntry(rawGood);
         }
 
+        public static FinishedGoodsInfo GetFinishedGoodInfo(long finishedGoodId)
+        {
+            return _muSql.GetTableWithCondition<FinishedGoodsInfo>($"where id='{finishedGoodId}'").FirstOrDefault();
+
+        }
+        public static List<FinishedGoodsDetails> GetFinishedGoodDetails(long finishedGoodId)
+        {
+            return _muSql.GetTableWithCondition<FinishedGoodsDetails>($"where _finishedGoodId='{finishedGoodId}'");
+        }
+
         public static void RegisterNewFinishedGoodInfo(FinishedGoodsInfo finishedGood)
         {
             if (!_muSql.TableExists<FinishedGoodsInfo>())
@@ -108,6 +120,11 @@ namespace DBManager
             _muSql.InsertEntry(newOrder);
         }
 
+        public static RawGoodsInfo GetRawGoodsInfo(long _rawGoodInfoId)
+        {
+            return _muSql.GetTableWithCondition<RawGoodsInfo>($"where id='{_rawGoodInfoId}'").FirstOrDefault();
+        }
+
         public static FinishedGoodsInfo GetFinishedGoodOrder(long workerId, long startTime)
         {
 
@@ -127,6 +144,26 @@ namespace DBManager
 
             var fgi = _muSql.GetTableWithCondition<FinishedGoodsInfo>($"where id='{result._finishedGoodId}'").FirstOrDefault();
             return fgi;
+        }
+
+        public static ProductionOrders GetProductionOrder(long workerId, long startTime)
+        {
+            if (!_muSql.TableExists<ProductionOrders>())
+                _muSql.CreateTable<FinishedGoodsDetails>();
+
+            var todayID = DateTime.Now.ToString("yyyyMMdd000000000");
+
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            var day = DateTime.Now.Day;
+
+            var tomorrowID = new DateTime(year, month, day, 23, 59, 59).ToString("yyyyMMddHHmmssfff");
+
+
+            var condition = $"where id>='{todayID}' and id<='{tomorrowID}' and _workerId ='{workerId}' and _startTime = '{startTime}' ;";
+            var result = _muSql.GetTableWithCondition<ProductionOrders>(condition).FirstOrDefault();
+
+            return result;
         }
 
         public static void DeleteOrder(long worderId, long startTime)

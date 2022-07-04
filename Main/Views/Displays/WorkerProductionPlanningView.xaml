@@ -15,6 +15,30 @@
         <Grid Grid.Column="0">
             <ContentControl Content="{Binding WorkerPlanningContent}"/>
         </Grid>
-        <Grid Grid.Column="1"></Grid>
+        <Grid Grid.Column="1" Margin="2">
+            <GroupBox Header="ORDER INFO">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontSize="25" Text="{Binding FinishedGoodName}"/>
+                            <ListView ItemsSource="{Binding RecipeIngredients}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Button>COMPLETE ORDER</Button>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>

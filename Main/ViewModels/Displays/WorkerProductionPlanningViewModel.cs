@@ -1,11 +1,16 @@
-﻿using Main.ViewModels.Menus.abstracts;
+﻿using DBManager;
+using DBManager.Tables;
+using Main.ViewModels.Menus.abstracts;
 using Main.Views.Displays.Items;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using UnityCake.Events;
 
 namespace Main.ViewModels.Displays
 {
@@ -28,6 +33,21 @@ namespace Main.ViewModels.Displays
             set { _detailColumnWidth = value;RaisePropertyChanged(nameof(DetailColumnWidth)); }
         }
 
+        public ObservableCollection<UserControl> RecipeIngredients { get; set; }
+
+        private string _finishedGoodName;
+        public string FinishedGoodName
+        {
+            get { return _finishedGoodName; }
+            set { _finishedGoodName = value; RaisePropertyChanged(nameof(FinishedGoodName)); }
+        }
+
+        #endregion
+        #endregion
+        #region -- PRIVATE --
+        #region -- CORE --
+        private int _maxColumnWidth { get; set; } = 500;
+        private int _animationDelay = 1;
         #endregion
         #endregion
         #endregion
@@ -36,6 +56,44 @@ namespace Main.ViewModels.Displays
         public WorkerProductionPlanningViewModel() : base()
         {
             WorkerPlanningContent = GenerateWorkerPlanningItem();
+
+            _ea.GetEvent<OrderClickedEvent>().Subscribe(
+                order =>
+                {
+                    if(DetailColumnWidth==0)
+                    {
+                        new Thread(() =>
+                        {
+                            for (int i = 0; i < _maxColumnWidth; i += 2)
+                            {
+                                DetailColumnWidth = i;
+                                Thread.Sleep(_animationDelay);
+                            }
+                        }).Start();
+                    }
+
+                    RecipeIngredients = GetRecipeIngredientItems(order);
+                    RaisePropertyChanged(nameof(RecipeIngredients));
+                    FinishedGoodName = DbClient.GetFinishedGoodInfo(order._finishedGoodId)._finishedGoodName;
+                });
+        }
+
+        private ObservableCollection<UserControl> GetRecipeIngredientItems(DBManager.Tables.ProductionOrders order)
+        {
+            var finishedGoodDetails = DbClient.GetFinishedGoodDetails(order._finishedGoodId);
+            var ingredients = finishedGoodDetails.Select(
+                fg =>
+                {
+                    var rawGoodInfo = DbClient.GetRawGoodsInfo(fg._rawGoodId);
+                    return new RecipeItemView()
+                    {
+                        RawGoodName = rawGoodInfo._rawgoodname,
+                        Quantity = fg._quantity.ToString(),
+                        Unit = fg._unit,
+                    };
+                });
+
+            return new ObservableCollection<UserControl>(ingredients);
         }
         #endregion
 

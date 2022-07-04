@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Main.Views.Displays.Items.RecipeItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Main.Views.Displays.Items"
+             mc:Ignorable="d" 
+             d:DesignHeight="35" d:DesignWidth="400">
+    <Grid >
+        <Button/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" 
+                       Margin="5"
+                   VerticalAlignment="Center"
+                   Text="{Binding RawGoodName}"/>
+
+            <TextBlock Grid.Column="1" 
+                   VerticalAlignment="Center"
+                   Text="{Binding Quantity}"/>
+
+            <TextBlock Grid.Column="2" 
+                   VerticalAlignment="Center"
+                   Text="{Binding Unit}"/>
+        </Grid>
+    </Grid>
+</UserControl>

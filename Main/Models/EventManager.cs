@@ -97,6 +97,13 @@ namespace Main.Models
                 {
                     DbClient.DeleteOrder(order.worker.id,order.startTime);
                 });
+
+            _ea.GetEvent<AskForProductionOrderEvent>().Subscribe(
+                askParam =>
+                {
+                    var order = DbClient.GetProductionOrder(askParam.worker.id, askParam.startTime);
+                    _ea.GetEvent<ReplyProductionOrderEvent>().Publish(order);
+                });
         #endregion
 
 

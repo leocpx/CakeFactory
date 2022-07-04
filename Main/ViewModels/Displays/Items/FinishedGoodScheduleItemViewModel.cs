@@ -72,15 +72,28 @@ namespace Main.ViewModels.Displays.Items
 
             TimeFrame = $"{start} - {end}";
 
-            _ea.GetEvent<AskForProductionOrderEvent>().Publish(
-                new AskOrderParams()
-                {
-                    OrderRecipe = fgi,
-                    startTime = long.Parse(StartTime.ToString("HHmm")),
-                    worker = CurrentUser
-                });
 
-            _ea.GetEvent<ReplyProductionOrderEvent>().Subscribe(order => ProductionOrder = order);
+            if (CurrentUser._level > 1)
+            {
+                _ea.GetEvent<ReplyProductionOrderEvent>().Subscribe(
+                    order =>
+                    {
+                        if (order._finishedGoodId == _FinishedGoodInfo.id &&
+                            order._startTime == long.Parse(StartTime.ToString("HHmm")))
+                        {
+                            ProductionOrder = order;
+                        }
+                    }
+                    );
+
+                _ea.GetEvent<AskForProductionOrderEvent>().Publish(
+                    new AskOrderParams()
+                    {
+                        OrderRecipe = fgi,
+                        startTime = long.Parse(StartTime.ToString("HHmm")),
+                        worker = CurrentUser
+                    });
+            }
         }
         #endregion
 
@@ -93,7 +106,8 @@ namespace Main.ViewModels.Displays.Items
         }
         private void ClickedAction()
         {
-            _ea.GetEvent<OrderClickedEvent>().Publish(ProductionOrder);
+            if (CurrentUser._level > 1)
+                _ea.GetEvent<OrderClickedEvent>().Publish(ProductionOrder);
         }
         #endregion
         #endregion
