@@ -24,7 +24,7 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock FontSize="25" Text="{Binding FinishedGoodName}"/>
+                            <TextBlock Margin="5" FontSize="25" Text="{Binding FinishedGoodName}"/>
                             <ListView ItemsSource="{Binding RecipeIngredients}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
