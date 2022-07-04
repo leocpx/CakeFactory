@@ -100,6 +100,50 @@ namespace DBManager
             _muSql.InsertEntries(finishedGoodDetails);
         }
 
+        public static void RegisterNewProductionOrder(ProductionOrders newOrder)
+        {
+            if (!_muSql.TableExists<ProductionOrders>())
+                _muSql.CreateTable<ProductionOrders>();
+
+            _muSql.InsertEntry(newOrder);
+        }
+
+        public static FinishedGoodsInfo GetFinishedGoodOrder(long workerId, long startTime)
+        {
+
+            var todayID = DateTime.Now.ToString("yyyyMMdd000000000");
+
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            var day = DateTime.Now.Day;
+
+            var tomorrowID = new DateTime(year, month, day, 23, 59, 59).ToString("yyyyMMddHHmmssfff");
+
+
+            var condition = $"where id>='{todayID}' and id<='{tomorrowID}' and _workerId ='{workerId}' and _startTime = '{startTime}' ;";
+            var result = _muSql.GetTableWithCondition<ProductionOrders>(condition).FirstOrDefault();
+
+            if (result == null) return null;
+
+            var fgi = _muSql.GetTableWithCondition<FinishedGoodsInfo>($"where id='{result._finishedGoodId}'").FirstOrDefault();
+            return fgi;
+        }
+
+        public static void DeleteOrder(long worderId, long startTime)
+        {
+            var todayID = DateTime.Now.ToString("yyyyMMdd000000000");
+            
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            var day = DateTime.Now.Day;
+
+            var tomorrowID = new DateTime(year, month, day, 23, 59, 59).ToString("yyyyMMddHHmmssfff");
+
+
+            var order = _muSql.GetTableWithCondition<ProductionOrders>($"where id>='{todayID}' and id<='{tomorrowID}' and _workerId='{worderId}' and _startTime='{startTime}'").FirstOrDefault();
+            _muSql.DeleteEntry(order);
+        }
+
         public static List<FinishedGoodsInfo> GetFinishedGoodInfoList()
         {
             if (!_muSql.TableExists<FinishedGoodsDetails>())

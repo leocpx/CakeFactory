@@ -1,4 +1,5 @@
 ﻿using CoreCake;
+using DBManager.Tables;
 using GongSolutions.Wpf.DragDrop;
 using Main.ViewModels.MenuItems;
 using Main.ViewModels.Menus.abstracts;
@@ -39,14 +40,16 @@ namespace Main.ViewModels.Displays.Items
         #endregion
         #endregion
         #region -- CORE --
+        public Users Worker { get; set; }
         public DateTime StartTime { get; set; }
         #endregion
         #endregion
         #endregion
 
         #region -- CONSTRUCTOR --
-        public ScheduleCellViewModel(DateTime timeFrame) : base()
+        public ScheduleCellViewModel(DateTime timeFrame, Users _worker) : base()
         {
+            Worker = _worker;
             StartTime = timeFrame;
 
             var start = timeFrame.ToString("HH:mm");
@@ -54,13 +57,37 @@ namespace Main.ViewModels.Displays.Items
 
             TimeFrame = $"{start} - {end}";
 
+
             _ea.GetEvent<RemoveFinishedGoodScheduleItemEvent>().Subscribe(
                 item =>
                 {
                     if(NestedItem == item)
                     {
                         NestedItem = null;
+
+                        var orderToDelete = new AskOrderParams()
+                        {
+                            worker = Worker,
+                            startTime = long.Parse(StartTime.ToString("HHmm"))
+                        };
+
+                        _ea.GetEvent<AskDeleteOrderEvent>().Publish(orderToDelete);
                     }
+                });
+
+
+            _ea.GetEvent<ReplyTodayOrdersEvent>().Subscribe(
+                fgi =>
+                {
+                    if(fgi.startTime == long.Parse(StartTime.ToString("HHmm")) && fgi.worker.id == Worker.id)
+                        NestedItem = new FinishedGoodScheduleItemView(fgi.OrderRecipe, StartTime);
+                });
+
+            _ea.GetEvent<AskTodayOrdersEvent>().Publish(
+                new AskOrderParams()
+                {
+                    worker = Worker,
+                    startTime = long.Parse(StartTime.ToString("HHmm"))
                 });
         }
 
@@ -91,6 +118,16 @@ namespace Main.ViewModels.Displays.Items
             var fgi = ((FinishedGoodItemViewModel)data.DataContext)._FinishedGoodInfo;
 
             NestedItem = new FinishedGoodScheduleItemView(fgi, StartTime);
+
+            var newOrder = new ProductionOrders()
+            {
+                _completed = false,
+                _finishedGoodId = fgi.id,
+                _startTime = long.Parse(StartTime.ToString("HHmm")),
+                _workerId = Worker.id
+            };
+
+            _ea.GetEvent<RegisterNewProductionOrderEvent>().Publish(newOrder);
         }
         #endregion
         #endregion

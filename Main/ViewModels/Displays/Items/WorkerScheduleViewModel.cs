@@ -54,7 +54,7 @@ namespace Main.ViewModels.Displays.Items
 
             while(start<=end)
             {
-                var newCell = new ScheduleCellView(start);
+                var newCell = new ScheduleCellView(start ,User);
                 result.Add(newCell);
                 start = start.AddMinutes(30);
             }

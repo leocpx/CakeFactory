@@ -14,9 +14,9 @@
             </StackPanel>
         </Button>
 
-        <Border IsHitTestVisible="True" BorderThickness="1" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"
+        <Border Visibility="{Binding CanDelete}" IsHitTestVisible="True" BorderThickness="1" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"
         CornerRadius="15" BorderBrush="White" Background="#FFD25C5C" PreviewMouseDown="Border_MouseDown">
-            <Grid IsHitTestVisible="True">
+            <Grid IsHitTestVisible="True" >
                 <TextBlock HorizontalAlignment="Center" Foreground="White" >x</TextBlock>
             </Grid>
         </Border>

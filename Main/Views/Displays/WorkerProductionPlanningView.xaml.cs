@@ -1,5 +1,4 @@
-﻿using DBManager.Tables;
-using Main.ViewModels.Displays.Items;
+﻿using Main.ViewModels.Displays;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Main.Views.Displays.Items
+namespace Main.Views.Displays
 {
     /// <summary>
-    /// Interaction logic for ScheduleCellView.xaml
+    /// Interaction logic for WorkerProductionPlanningView.xaml
     /// </summary>
-    public partial class ScheduleCellView : UserControl
+    public partial class WorkerProductionPlanningView : UserControl
     {
-        public ScheduleCellView(DateTime timeFrame, Users _worker)
+        public WorkerProductionPlanningView()
         {
             InitializeComponent();
-            DataContext = new ScheduleCellViewModel(timeFrame, _worker);
+            DataContext = new WorkerProductionPlanningViewModel();
         }
     }
 }

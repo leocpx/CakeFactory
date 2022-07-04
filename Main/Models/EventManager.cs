@@ -28,6 +28,7 @@ namespace Main.Models
         private SubscriptionToken _subscriptionToken2 { get; set; }
 
         private UserControl _adminPlanningDisplay { get; set; }
+        private UserControl _workerPlanningDisplay { get; set; }
         #endregion
         #endregion
 
@@ -76,10 +77,30 @@ namespace Main.Models
                 {
                     _secondMenuSetter(new FinishedGoodListView(category));
                 });
+
+            _ea.GetEvent<RegisterNewProductionOrderEvent>().Subscribe(DbClient.RegisterNewProductionOrder);
+
+            _ea.GetEvent<AskTodayOrdersEvent>().Subscribe(
+                order =>
+                {
+                    var fgi = DbClient.GetFinishedGoodOrder(order.worker.id, order.startTime);
+
+                    if(fgi!=null)
+                    {
+                        order.OrderRecipe = fgi;
+                        _ea.GetEvent<ReplyTodayOrdersEvent>().Publish(order);
+                    }    
+                });
+
+            _ea.GetEvent<AskDeleteOrderEvent>().Subscribe(
+                order =>
+                {
+                    DbClient.DeleteOrder(order.worker.id,order.startTime);
+                });
         #endregion
 
 
-        #region -- PUBLISHES --
+            #region -- PUBLISHES --
 
         _ea.GetEvent<AskSecondSetterMenuEvent>().Publish();
             _ea.GetEvent<AskDisplayMenuSetterEvent>().Publish(); 
@@ -98,6 +119,9 @@ namespace Main.Models
             switch (itemName)
             {
                 case MenuItems.schedules:
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULE");
+                    _workerPlanningDisplay = _workerPlanningDisplay == null ? new WorkerProductionPlanningView() : _workerPlanningDisplay;
+                    _displayMenuSetter(_workerPlanningDisplay);
                     break;
 
                 case MenuItems.production_planning:
