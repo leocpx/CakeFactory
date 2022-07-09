@@ -1,4 +1,5 @@
-﻿using DBManager.Tables;
+﻿using Core.Interfaces;
+using DBManager.Tables;
 using eLongMuSQL;
 using System;
 using System.Collections.Generic;
@@ -92,10 +93,11 @@ namespace DBManager
 
         }
 
-        public static void CompleteProductionOrder(ProductionOrders order)
+        public static void CompleteProductionOrder(IOrder order)
         {
             order._completed = true;
-            _muSql.UpdateEntry(order);
+            var productionOrder = order as ProductionOrders;
+            _muSql.UpdateEntry(productionOrder);
         }
 
         public static List<FinishedGoodsDetails> GetFinishedGoodDetails(long finishedGoodId)
@@ -111,6 +113,11 @@ namespace DBManager
             _muSql.InsertEntry(finishedGood);
         }
 
+        public static Users GetUser(long workerId)
+        {
+            return _muSql.GetTableWithCondition<Users>($"where id='{workerId}'").FirstOrDefault();
+        }
+
         public static void RegisterFinishedGoodsDetails(List<FinishedGoodsDetails> finishedGoodDetails)
         {
             if (!_muSql.TableExists<FinishedGoodsDetails>())
@@ -119,11 +126,39 @@ namespace DBManager
             _muSql.InsertEntries(finishedGoodDetails);
         }
 
-        public static void RegisterNewProductionOrder(ProductionOrders newOrder)
+        //public static void RegisterNewProductionOrder(ProductionOrders newOrder)
+        public static void RegisterNewProductionOrder(IOrder order)
         {
             if (!_muSql.TableExists<ProductionOrders>())
                 _muSql.CreateTable<ProductionOrders>();
 
+            var newOrder = order as ProductionOrders;
+            _muSql.InsertEntry(newOrder);
+        }
+
+        public static PackagingOrders GetPackagingOrder(long _workerId, long startTime)
+        {
+            var todayID = DateTime.Now.ToString("yyyyMMdd000000000");
+
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            var day = DateTime.Now.Day;
+
+            var tomorrowID = new DateTime(year, month, day, 23, 59, 59).ToString("yyyyMMddHHmmssfff");
+
+
+            var condition = $"where id>='{todayID}' and id<='{tomorrowID}' and _workerId ='{_workerId}' and _startTime = '{startTime}' ;";
+            var result = _muSql.GetTableWithCondition<PackagingOrders>(condition).FirstOrDefault();
+
+            return result;
+        }
+
+        public static void RegisterNewPackagingOrder(IOrder order)
+        {
+            if (!_muSql.TableExists<PackagingOrders>())
+                _muSql.CreateTable<PackagingOrders>();
+
+            var newOrder = order as PackagingOrders;
             _muSql.InsertEntry(newOrder);
         }
 
@@ -136,6 +171,9 @@ namespace DBManager
         {
             return _muSql.GetTable<ProductionOrders>().Where(_order => _order._completed).ToList();
         }
+
+
+
         public static FinishedGoodsInfo GetFinishedGoodOrder(long workerId, long startTime)
         {
 
@@ -155,6 +193,16 @@ namespace DBManager
 
             var fgi = _muSql.GetTableWithCondition<FinishedGoodsInfo>($"where id='{result._finishedGoodId}'").FirstOrDefault();
             return fgi;
+        }
+
+        public static IOrder GetOrder(FinishedGoodsInfo fgi, long workerId, string startTime)
+        {
+            var productionOrder = _muSql.GetTableWithCondition<ProductionOrders>($"where _finishedGoodId='{fgi.id}' and _workerId='{workerId}' and _startTime='{startTime}'").FirstOrDefault();
+            var packagingOrder = _muSql.GetTableWithCondition<PackagingOrders>($"where _finishedGoodId='{fgi.id}' and _workerId='{workerId}' and _startTime='{startTime}'").FirstOrDefault();
+
+            if (productionOrder != null) return productionOrder;
+
+            return packagingOrder;
         }
 
         public static ProductionOrders GetProductionOrder(long workerId, long startTime)
@@ -177,7 +225,7 @@ namespace DBManager
             return result;
         }
 
-        public static void DeleteOrder(long worderId, long startTime)
+        public static void DeleteOrder(IOrder order)
         {
             var todayID = DateTime.Now.ToString("yyyyMMdd000000000");
             
@@ -187,9 +235,11 @@ namespace DBManager
 
             var tomorrowID = new DateTime(year, month, day, 23, 59, 59).ToString("yyyyMMddHHmmssfff");
 
-
-            var order = _muSql.GetTableWithCondition<ProductionOrders>($"where id>='{todayID}' and id<='{tomorrowID}' and _workerId='{worderId}' and _startTime='{startTime}'").FirstOrDefault();
-            _muSql.DeleteEntry(order);
+            var orderEntry1 = _muSql.GetTableWithCondition<ProductionOrders>($"where id>='{todayID}' and id<='{tomorrowID}' and _workerId='{order._workerId}' and _startTime='{order._startTime}'").FirstOrDefault();
+            var orderEntry2 = _muSql.GetTableWithCondition<PackagingOrders>($"where id>='{todayID}' and id<='{tomorrowID}' and _workerId='{order._workerId}' and _startTime='{order._startTime}'").FirstOrDefault();
+            
+            _muSql.DeleteEntry(orderEntry1);
+            _muSql.DeleteEntry(orderEntry2);
         }
 
         public static List<FinishedGoodsInfo> GetFinishedGoodInfoList()

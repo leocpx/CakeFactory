@@ -1,4 +1,5 @@
-﻿using CoreCake;
+﻿using Core.Interfaces;
+using CoreCake;
 using DBManager;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
@@ -47,7 +48,7 @@ namespace Main.ViewModels.Displays
         public ICommand CompleteOrderCommand => new DefaultCommand(CompleteOrderAction, () => true);
         #endregion
         #region -- CORE --
-        public ProductionOrders _ProductionOrder { get; set; }
+        public IOrder _ProductionOrder { get; set; }
         #endregion
         #endregion
         #region -- PRIVATE --
@@ -79,7 +80,7 @@ namespace Main.ViewModels.Displays
                         }).Start();
                     }
 
-                    RecipeIngredients = GetRecipeIngredientItems(order);
+                    RecipeIngredients = GetRecipeIngredientItems(order as ProductionOrders);
                     RaisePropertyChanged(nameof(RecipeIngredients));
                     FinishedGoodName = DbClient.GetFinishedGoodInfo(order._finishedGoodId)._finishedGoodName;
                 });

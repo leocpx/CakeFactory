@@ -1,4 +1,5 @@
-﻿using DBManager.Tables;
+﻿using Core.Interfaces;
+using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Main.ViewModels.MenuItems
 {
-    public class FinishedGoodItemViewModel : GUIEntity
+    public class FinishedGoodItemViewModel : GUIEntity, IScheduleItem
     {
 
         #region -- PROPERTIES --
@@ -24,6 +25,7 @@ namespace Main.ViewModels.MenuItems
         #endregion
         #region -- CORE --
         public FinishedGoodsInfo _FinishedGoodInfo { get; set; }
+        public IOrder Order { get; set; }
         #endregion
         #endregion
         #endregion

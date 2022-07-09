@@ -1,4 +1,5 @@
-﻿using DBManager.Tables;
+﻿using Core.Interfaces;
+using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Main.ViewModels.MenuItems
 {
-    public class CompletedProductItemViewModel : GUIEntity
+    public class CompletedProductItemViewModel : GUIEntity, IScheduleItem
     {
         #region -- PROPERTIES --
         #region -- BINDED --
@@ -22,14 +23,16 @@ namespace Main.ViewModels.MenuItems
         #endregion
         #region -- CORE --
         public ProductionOrders ProductionOrder { get; set; }
+        public IOrder Order { get; set; }
         #endregion
         #endregion
 
         #region -- CONSTRUCTOR --
-        public CompletedProductItemViewModel(DBManager.Tables.ProductionOrders fg) : base()
+        public CompletedProductItemViewModel(DBManager.Tables.ProductionOrders po) : base()
         {
-            ProductionOrder = fg;
-            ProductName = fg._FinishedGoodsInfo.First()._finishedGoodName;
+            Order = po;
+            ProductName = po._FinishedGoodsInfo.First()._finishedGoodName;
+            ProductionOrder = po;
         }
         #endregion
     }

@@ -1,4 +1,6 @@
-﻿using CoreCake;
+﻿using Core.Interfaces;
+using CoreCake;
+using DBManager;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
 using System;
@@ -13,7 +15,7 @@ using UnityCake.Events;
 
 namespace Main.ViewModels.Displays.Items
 {
-    public class FinishedGoodScheduleItemViewModel : GUIEntity
+    public class FinishedGoodScheduleItemViewModel : GUIEntity, IScheduleItem
     {
 
         #region -- PROPERTIES --
@@ -52,7 +54,8 @@ namespace Main.ViewModels.Displays.Items
         public DateTime StartTime { get; set; }
         public FinishedGoodsInfo _FinishedGoodInfo { get; set; }
         public UserControl ownerControl { get; set; }
-        public ProductionOrders ProductionOrder { get; set; }
+        //public ProductionOrders Order { get; set; }
+        public IOrder Order { get; set; }
         #endregion
         #endregion
         #endregion
@@ -72,28 +75,28 @@ namespace Main.ViewModels.Displays.Items
 
             TimeFrame = $"{start} - {end}";
 
+            //if (CurrentUser._level == 2)
+            //{
+            //    _ea.GetEvent<ReplyProductionOrderEvent>().Subscribe(
+            //        order =>
+            //        {
+            //            if(order != null)
+            //                if (order._finishedGoodId == _FinishedGoodInfo.id &&
+            //                    order._startTime == long.Parse(StartTime.ToString("HHmm")))
+            //                {
+            //                    Order = order;
+            //                }
+            //        }
+            //        );
 
-            if (CurrentUser._level > 1)
-            {
-                _ea.GetEvent<ReplyProductionOrderEvent>().Subscribe(
-                    order =>
-                    {
-                        if (order._finishedGoodId == _FinishedGoodInfo.id &&
-                            order._startTime == long.Parse(StartTime.ToString("HHmm")))
-                        {
-                            ProductionOrder = order;
-                        }
-                    }
-                    );
-
-                _ea.GetEvent<AskForProductionOrderEvent>().Publish(
-                    new AskOrderParams()
-                    {
-                        OrderRecipe = fgi,
-                        startTime = long.Parse(StartTime.ToString("HHmm")),
-                        worker = CurrentUser
-                    });
-            }
+            //    _ea.GetEvent<AskForProductionOrderEvent>().Publish(
+            //        new AskOrderParams()
+            //        {
+            //            FinishedGoodInfo = fgi,
+            //            startTime = long.Parse(StartTime.ToString("HHmm")),
+            //            worker = CurrentUser
+            //        });
+            //}
         }
         #endregion
 
@@ -106,8 +109,8 @@ namespace Main.ViewModels.Displays.Items
         }
         private void ClickedAction()
         {
-            if (CurrentUser._level > 1)
-                _ea.GetEvent<OrderClickedEvent>().Publish(ProductionOrder);
+            if (CurrentUser._level == 2)
+                _ea.GetEvent<OrderClickedEvent>().Publish(Order);
         }
         #endregion
         #endregion

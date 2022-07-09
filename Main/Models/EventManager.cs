@@ -27,7 +27,8 @@ namespace Main.Models
         private SubscriptionToken _subscriptionToken1 { get; set; }
         private SubscriptionToken _subscriptionToken2 { get; set; }
 
-        private UserControl _adminPlanningDisplay { get; set; }
+        private UserControl _adminProductionPlanningDisplay { get; set; }
+        private UserControl _adminPackagingPlanningDisplay { get; set; }
         private UserControl _workerPlanningDisplay { get; set; }
         #endregion
         #endregion
@@ -78,24 +79,47 @@ namespace Main.Models
                     _secondMenuSetter(new FinishedGoodListView(category));
                 });
 
-            _ea.GetEvent<RegisterNewProductionOrderEvent>().Subscribe(DbClient.RegisterNewProductionOrder);
+            _ea.GetEvent<RegisterNewOrderEvent>().Subscribe(
+                order=>
+                {
+                    var worker = DbClient.GetUser(order._workerId);
+
+                    if (worker!=null)
+                    {
+                        if (worker._level == 2)
+                            DbClient.RegisterNewProductionOrder(order);
+
+                        if (worker._level == 3)
+                            DbClient.RegisterNewPackagingOrder(order); 
+                    }
+                });
 
             _ea.GetEvent<AskTodayOrdersEvent>().Subscribe(
-                order =>
+                askParam =>
                 {
-                    var fgi = DbClient.GetFinishedGoodOrder(order.worker.id, order.startTime);
+                    var fgi = DbClient.GetFinishedGoodOrder(askParam.worker.id, askParam.startTime);
 
                     if(fgi!=null)
                     {
-                        order.OrderRecipe = fgi;
-                        _ea.GetEvent<ReplyTodayOrdersEvent>().Publish(order);
-                    }    
+                        askParam.FinishedGoodInfo = fgi;
+                        _ea.GetEvent<ReplyTodayOrdersEvent>().Publish(askParam);
+                        return;
+                    }
+
+                    var po = DbClient.GetPackagingOrder(askParam.worker.id, askParam.startTime);
+                    if (po != null)
+                    {
+                        askParam.packagingOrder = po;
+                        askParam.FinishedGoodInfo = po._FinishedGoodsInfo.FirstOrDefault();
+                        _ea.GetEvent<ReplyTodayOrdersEvent>().Publish(askParam);
+                        return;
+                    }
                 });
 
             _ea.GetEvent<AskDeleteOrderEvent>().Subscribe(
                 order =>
                 {
-                    DbClient.DeleteOrder(order.worker.id,order.startTime);
+                    DbClient.DeleteOrder(order);
                 });
 
             _ea.GetEvent<AskForProductionOrderEvent>().Subscribe(
@@ -126,7 +150,7 @@ namespace Main.Models
             switch (itemName)
             {
                 case MenuItems.schedules:
-                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULE");
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("YOUR SCHEDULE FOR TODAY");
                     //_workerPlanningDisplay = _workerPlanningDisplay == null ? new WorkerProductionPlanningView() : _workerPlanningDisplay;
                     _workerPlanningDisplay = new WorkerProductionPlanningView();
                     _displayMenuSetter(_workerPlanningDisplay);
@@ -136,22 +160,22 @@ namespace Main.Models
                     _secondMenuSetter(new SecondMenuControlView());
                     _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
                     _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("FINISHED GOODS");
-                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULES");
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("PRODUCTION SCHEDULES");
                     _ea.GetEvent<SetMainMenuHeaderEvent>().Publish("FINISHED GOODS CATEGORIES");
                     _ea.GetEvent<SetMainMenuItemsEvent>().Publish(GetCategoryFinishedGoodMenuItems());
 
-                    _adminPlanningDisplay = _adminPlanningDisplay == null ? new AdminProductionPlanningView() : _adminPlanningDisplay;
-                    _displayMenuSetter(_adminPlanningDisplay);
-                    //_secondMenuSetter(new FinishedGoodListView());
+                    _adminProductionPlanningDisplay = _adminProductionPlanningDisplay == null ? new AdminProductionPlanningView() : _adminProductionPlanningDisplay;
+                    _displayMenuSetter(_adminProductionPlanningDisplay);
                     break;
 
                 case MenuItems.packaging_planning:
                     _secondMenuSetter(new CompletedProductOrdersMenuControlView());
                     _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
                     _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("READY FOR PACKAGING");
-                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULES");
-
-
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("PACKAGING SCHEDULES");
+                    
+                    _adminPackagingPlanningDisplay = _adminPackagingPlanningDisplay == null ? new AdminPackagingPlanningView() : _adminPackagingPlanningDisplay;
+                    _displayMenuSetter(_adminPackagingPlanningDisplay);
                     break;
 
                 case MenuItems.account_administration:

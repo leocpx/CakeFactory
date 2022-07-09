@@ -6,6 +6,7 @@ namespace UnityCake.Events
     {
         public Users worker { get; set; }
         public long startTime { get; set; }
-        public FinishedGoodsInfo OrderRecipe { get; set; }
+        public FinishedGoodsInfo FinishedGoodInfo { get; set; }
+        public PackagingOrders packagingOrder { get; set; }
     }
 }

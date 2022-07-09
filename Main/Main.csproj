@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\EventManager.cs" />
+    <Compile Include="ViewModels\Displays\AdminPackagingPlanningViewModel.cs" />
     <Compile Include="ViewModels\Displays\AdminProductionPlanningViewModel.cs" />
     <Compile Include="ViewModels\Displays\CreateNewFinishedGoodsViewModel.cs" />
     <Compile Include="ViewModels\Displays\CreatedRawGoodsListViewModel.cs" />
@@ -107,6 +108,9 @@
     <Compile Include="ViewModels\Menus\abstracts\GUIEntity.cs" />
     <Compile Include="ViewModels\Menus\MainMenuControlViewModel.cs" />
     <Compile Include="ViewModels\Menus\SecondMenuViewModel.cs" />
+    <Compile Include="Views\Displays\AdminPackagingPlanningView.xaml.cs">
+      <DependentUpon>AdminPackagingPlanningView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Displays\AdminProductionPlanningView.xaml.cs">
       <DependentUpon>AdminProductionPlanningView.xaml</DependentUpon>
     </Compile>
@@ -185,6 +189,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Displays\AdminPackagingPlanningView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Displays\AdminProductionPlanningView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,7 +323,9 @@
       <Name>UnityCake</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

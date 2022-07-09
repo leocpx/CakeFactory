@@ -86,6 +86,7 @@ namespace eLongMuSQL
 		}
 		public void DeleteEntry<T>(T entry) where T:new()
         {
+			if(entry == null) return;
 			DeleteEntry<T>(GetTableName<T>(), entry);
         }
 		public void Connect()

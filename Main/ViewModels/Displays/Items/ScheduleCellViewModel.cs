@@ -1,4 +1,6 @@
-﻿using CoreCake;
+﻿using Core.Interfaces;
+using CoreCake;
+using DBManager;
 using DBManager.Tables;
 using GongSolutions.Wpf.DragDrop;
 using Main.ViewModels.MenuItems;
@@ -61,19 +63,20 @@ namespace Main.ViewModels.Displays.Items
                 order =>
                 {
                     if (NestedItem == null) return;
-                    var item = NestedItem.DataContext as FinishedGoodScheduleItemViewModel;
+                    var item = NestedItem.DataContext as IScheduleItem;
                     
-                    if( item.ProductionOrder.id == order.id)
+                    if( item.Order.id == order.id)
                     {
                         NestedItem = null;
                     }    
                 });
 
             _ea.GetEvent<RemoveFinishedGoodScheduleItemEvent>().Subscribe(
-                item =>
+                _userControl =>
                 {
-                    if(NestedItem == item)
+                    if(NestedItem == _userControl)
                     {
+                        var orderUserControl = NestedItem.DataContext as IScheduleItem;
                         NestedItem = null;
 
                         var orderToDelete = new AskOrderParams()
@@ -82,16 +85,21 @@ namespace Main.ViewModels.Displays.Items
                             startTime = long.Parse(StartTime.ToString("HHmm"))
                         };
 
-                        _ea.GetEvent<AskDeleteOrderEvent>().Publish(orderToDelete);
+
+                        _ea.GetEvent<AskDeleteOrderEvent>().Publish(orderUserControl.Order);
                     }
                 });
 
 
             _ea.GetEvent<ReplyTodayOrdersEvent>().Subscribe(
-                fgi =>
+                askParam =>
                 {
-                    if(fgi.startTime == long.Parse(StartTime.ToString("HHmm")) && fgi.worker.id == Worker.id)
-                        NestedItem = new FinishedGoodScheduleItemView(fgi.OrderRecipe, StartTime);
+                    if(askParam.startTime == long.Parse(StartTime.ToString("HHmm")) && askParam.worker.id == Worker.id)
+                    {
+                        NestedItem = new FinishedGoodScheduleItemView(askParam.FinishedGoodInfo, StartTime);
+                        var _nestedVm = NestedItem.DataContext as IScheduleItem;
+                        _nestedVm.Order = DbClient.GetOrder(askParam.FinishedGoodInfo, Worker.id, StartTime.ToString("HHmm"));
+                    }
                 });
 
             _ea.GetEvent<AskTodayOrdersEvent>().Publish(
@@ -125,20 +133,58 @@ namespace Main.ViewModels.Displays.Items
 
         public void Drop(IDropInfo dropInfo)
         {
-            var data = dropInfo.Data as FinishedGoodItemView;
-            var fgi = ((FinishedGoodItemViewModel)data.DataContext)._FinishedGoodInfo;
+            IOrder newOrder = null;
+            var productionData = dropInfo.Data as FinishedGoodItemView;
+            var packagingData = dropInfo.Data as CompletedProductItemView;
+
+            if (productionData!=null)
+                newOrder = GetNewProductionOrder(productionData);
+
+            if (packagingData != null)
+                newOrder = GetNewPackagingOrder(packagingData);
+
+            _ea.GetEvent<RegisterNewOrderEvent>().Publish(newOrder);
+        }
+
+        private IOrder GetNewPackagingOrder(CompletedProductItemView productionData)
+        {
+            IOrder newOrder;
+            var vm = ((CompletedProductItemViewModel)productionData.DataContext);
+            var _fgId = vm.Order._finishedGoodId;
+            var fgi = DbClient.GetFinishedGoodInfo(_fgId);
 
             NestedItem = new FinishedGoodScheduleItemView(fgi, StartTime);
 
-            var newOrder = new ProductionOrders()
+            newOrder = new PackagingOrders()
+            {
+                _completed = false,
+                _finishedGoodId = fgi.id,
+                _startTime = long.Parse(StartTime.ToString("HHmm")),
+                _workerId = Worker.id,
+                _productionOrderId = vm.ProductionOrder.id
+            };
+
+            var dataContext = NestedItem.DataContext as IScheduleItem;
+            dataContext.Order = newOrder;
+
+            return newOrder;
+        }
+
+        private IOrder GetNewProductionOrder(FinishedGoodItemView productionData)
+        {
+            IOrder newOrder;
+            var fgi = ((FinishedGoodItemViewModel)productionData.DataContext)._FinishedGoodInfo;
+
+            NestedItem = new FinishedGoodScheduleItemView(fgi, StartTime);
+
+            newOrder = new ProductionOrders()
             {
                 _completed = false,
                 _finishedGoodId = fgi.id,
                 _startTime = long.Parse(StartTime.ToString("HHmm")),
                 _workerId = Worker.id
             };
-
-            _ea.GetEvent<RegisterNewProductionOrderEvent>().Publish(newOrder);
+            return newOrder;
         }
         #endregion
         #endregion

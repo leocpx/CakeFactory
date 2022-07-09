@@ -5,9 +5,8 @@ using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-
-    [SQLTable(nameof(ProductionOrders))]
-    public class ProductionOrders : IOrder
+    [SQLTable(nameof(PackagingOrders))]
+    public class PackagingOrders : IOrder
     {
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]
         public Int64 id { get; set; }
@@ -15,6 +14,10 @@ namespace DBManager.Tables
 
         [SQLColumn(SQLColumnType.BigInt, nameof(_finishedGoodId), true, false)]
         public Int64 _finishedGoodId { get; set; }
+
+
+        [SQLColumn(SQLColumnType.BigInt, nameof(_productionOrderId), true, false)]
+        public Int64 _productionOrderId { get; set; }
 
 
         [SQLColumn(SQLColumnType.BigInt, nameof(_workerId), true, false)]
@@ -29,14 +32,19 @@ namespace DBManager.Tables
         public bool _completed { get; set; } = false;
 
 
-        [SQLTableLink(typeof(FinishedGoodsInfo),nameof(_finishedGoodId),nameof(FinishedGoodsInfo.id))]
+        [SQLTableLink(typeof(FinishedGoodsInfo), nameof(_finishedGoodId), nameof(FinishedGoodsInfo.id))]
         public List<FinishedGoodsInfo> _FinishedGoodsInfo { get; set; }
 
 
-        [SQLTableLink(typeof(Users),nameof(_workerId),nameof(Users.id))]
+        [SQLTableLink(typeof(Users), nameof(_workerId), nameof(Users.id))]
         public List<Users> _Worker { get; set; }
 
-        public ProductionOrders()
+
+        [SQLTableLink(typeof(ProductionOrders), nameof(_productionOrderId), nameof(ProductionOrders.id))]
+        public List<ProductionOrders> _ProductionOrder { get; set; }
+
+
+        public PackagingOrders()
         {
             id = Int64.Parse(DateTime.Now.ToString("yyyyMMddHHmmssfff"));
         }

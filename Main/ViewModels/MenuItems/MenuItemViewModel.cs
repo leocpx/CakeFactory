@@ -36,7 +36,7 @@ namespace Main.ViewModels.MenuItems
         #region -- CONSTRUCTOR --
         public MenuItemViewModel(CoreCake.MenuItems menuItem) : base()
         {
-            ItemDisplayName = Core.GetDisplayName(menuItem);
+            ItemDisplayName = CoreCake.Core.GetDisplayName(menuItem);
             _menuItem = menuItem;
         }
         #endregion

@@ -31,7 +31,7 @@ namespace Main.ViewModels.Menus
         #region -- PRIVATE --
         private ObservableCollection<UserControl> GetCompletedProducts()
         {
-            var completedProducts = DBManager.DbClient.GetCompletedProductOrders().Select(fg=>new CompletedProductItemView(fg));
+            var completedProducts = DBManager.DbClient.GetCompletedProductOrders().Select(fg => new CompletedProductItemView(fg));
             return new ObservableCollection<UserControl>(completedProducts);
         }
         #endregion
