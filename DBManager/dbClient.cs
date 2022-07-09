@@ -91,6 +91,13 @@ namespace DBManager
             return _muSql.GetTableWithCondition<FinishedGoodsInfo>($"where id='{finishedGoodId}'").FirstOrDefault();
 
         }
+
+        public static void CompleteProductionOrder(ProductionOrders order)
+        {
+            order._completed = true;
+            _muSql.UpdateEntry(order);
+        }
+
         public static List<FinishedGoodsDetails> GetFinishedGoodDetails(long finishedGoodId)
         {
             return _muSql.GetTableWithCondition<FinishedGoodsDetails>($"where _finishedGoodId='{finishedGoodId}'");
@@ -125,6 +132,10 @@ namespace DBManager
             return _muSql.GetTableWithCondition<RawGoodsInfo>($"where id='{_rawGoodInfoId}'").FirstOrDefault();
         }
 
+        public static List<ProductionOrders> GetCompletedProductOrders()
+        {
+            return _muSql.GetTable<ProductionOrders>().Where(_order => _order._completed).ToList();
+        }
         public static FinishedGoodsInfo GetFinishedGoodOrder(long workerId, long startTime)
         {
 

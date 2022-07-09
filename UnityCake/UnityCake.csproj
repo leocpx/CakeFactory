@@ -88,6 +88,7 @@
     <Compile Include="Events\CloseLoginDialogEvent.cs" />
     <Compile Include="Events\AskLoggedUser.cs" />
     <Compile Include="Events\CloseMainWindowEvent.cs" />
+    <Compile Include="Events\CompleteOrderEvent.cs" />
     <Compile Include="Events\FinishedGoodCategoryItemClickedEvent.cs" />
     <Compile Include="Events\MenuItemClickedEvent.cs" />
     <Compile Include="Events\OrderClickedEvent.cs" />

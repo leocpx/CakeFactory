@@ -1,4 +1,5 @@
-﻿using DBManager;
+﻿using CoreCake;
+using DBManager;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
 using Main.Views.Displays.Items;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using UnityCake.Events;
 
 namespace Main.ViewModels.Displays
@@ -42,6 +44,10 @@ namespace Main.ViewModels.Displays
             set { _finishedGoodName = value; RaisePropertyChanged(nameof(FinishedGoodName)); }
         }
 
+        public ICommand CompleteOrderCommand => new DefaultCommand(CompleteOrderAction, () => true);
+        #endregion
+        #region -- CORE --
+        public ProductionOrders _ProductionOrder { get; set; }
         #endregion
         #endregion
         #region -- PRIVATE --
@@ -60,7 +66,8 @@ namespace Main.ViewModels.Displays
             _ea.GetEvent<OrderClickedEvent>().Subscribe(
                 order =>
                 {
-                    if(DetailColumnWidth==0)
+                    _ProductionOrder = order;
+                    if (DetailColumnWidth==0)
                     {
                         new Thread(() =>
                         {
@@ -99,6 +106,16 @@ namespace Main.ViewModels.Displays
 
         #region -- FUNCTIONS --
         #region -- PRIVATE --
+        #region -- ICOMMANDS --
+        private void CompleteOrderAction()
+        {
+            if (_ProductionOrder != null)
+            {
+                DbClient.CompleteProductionOrder(_ProductionOrder);
+                _ea.GetEvent<CompleteOrderEvent>().Publish(_ProductionOrder);
+            }
+        }
+        #endregion
         private UserControl GenerateWorkerPlanningItem()
         {
             return new WorkerScheduleView(CurrentUser);

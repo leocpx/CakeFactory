@@ -57,6 +57,17 @@ namespace Main.ViewModels.Displays.Items
 
             TimeFrame = $"{start} - {end}";
 
+            _ea.GetEvent<CompleteOrderEvent>().Subscribe(
+                order =>
+                {
+                    if (NestedItem == null) return;
+                    var item = NestedItem.DataContext as FinishedGoodScheduleItemViewModel;
+                    
+                    if( item.ProductionOrder.id == order.id)
+                    {
+                        NestedItem = null;
+                    }    
+                });
 
             _ea.GetEvent<RemoveFinishedGoodScheduleItemEvent>().Subscribe(
                 item =>

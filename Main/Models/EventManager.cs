@@ -127,7 +127,8 @@ namespace Main.Models
             {
                 case MenuItems.schedules:
                     _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULE");
-                    _workerPlanningDisplay = _workerPlanningDisplay == null ? new WorkerProductionPlanningView() : _workerPlanningDisplay;
+                    //_workerPlanningDisplay = _workerPlanningDisplay == null ? new WorkerProductionPlanningView() : _workerPlanningDisplay;
+                    _workerPlanningDisplay = new WorkerProductionPlanningView();
                     _displayMenuSetter(_workerPlanningDisplay);
                     break;
 
@@ -142,6 +143,15 @@ namespace Main.Models
                     _adminPlanningDisplay = _adminPlanningDisplay == null ? new AdminProductionPlanningView() : _adminPlanningDisplay;
                     _displayMenuSetter(_adminPlanningDisplay);
                     //_secondMenuSetter(new FinishedGoodListView());
+                    break;
+
+                case MenuItems.packaging_planning:
+                    _secondMenuSetter(new CompletedProductOrdersMenuControlView());
+                    _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
+                    _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("READY FOR PACKAGING");
+                    _ea.GetEvent<SetDisplayHeaderEvent>().Publish("WORKER SCHEDULES");
+
+
                     break;
 
                 case MenuItems.account_administration:
@@ -244,12 +254,20 @@ namespace Main.Models
                         new MenuItemView(CoreCake.MenuItems.close_secondMenu),
                     };
 
-                // OPERATOR MENU ITEMS
+                // PRODUCTION USER MENU ITEMS
                 case 2:
                     return new List<UserControl>()
                     {
                         new MenuItemView(CoreCake.MenuItems.close_secondMenu),
                     };
+
+                // PACKAGING USER MENU ITEMS
+                case 3:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                    };
+
                 default:
                     return null;
             }
@@ -275,8 +293,16 @@ namespace Main.Models
                         new MenuItemView(CoreCake.MenuItems.close_secondMenu),
                     };
 
-                // OPERATOR MENU ITEMS
+                // PRODUCTION USER MENU ITEMS
                 case 2:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.modify_account),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                    };
+
+                // PACKAGING USER MENU ITEMS
+                case 3:
                     return new List<UserControl>()
                     {
                         new MenuItemView(CoreCake.MenuItems.modify_account),
@@ -298,6 +324,7 @@ namespace Main.Models
                     return new List<UserControl>()
                     {
                         new MenuItemView(CoreCake.MenuItems.production_planning),
+                        new MenuItemView(CoreCake.MenuItems.packaging_planning),
                         new MenuItemView(CoreCake.MenuItems.inventory_management),
                         new MenuItemView(CoreCake.MenuItems.database_management),
                         new MenuItemView(CoreCake.MenuItems.account_administration),
@@ -307,8 +334,18 @@ namespace Main.Models
                         new MenuItemView(CoreCake.MenuItems.logout),
                     };
 
-                // OPERATOR MENU ITEMS
+                // PRODUCTION WORKER MENU ITEMS
                 case 2:
+                    return new List<UserControl>()
+                    {
+                        new MenuItemView(CoreCake.MenuItems.schedules),
+                        new MenuItemView(CoreCake.MenuItems.account_administration),
+                        new MenuItemView(CoreCake.MenuItems.inventory_management),
+                        new MenuItemView(CoreCake.MenuItems.logout),
+                    };
+
+                // PACKAGING WORKER MENU ITEMS
+                case 3:
                     return new List<UserControl>()
                     {
                         new MenuItemView(CoreCake.MenuItems.schedules),

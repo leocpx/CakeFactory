@@ -1,29 +1,38 @@
 ﻿using eLongMuSQL;
 using System;
+using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-    [SQLTable("ProductionOrders")]
+    [SQLTable(nameof(ProductionOrders))]
     public class ProductionOrders
     {
-        [SQLColumn(SQLColumnType.BigInt, "id", true, true)]
+        [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]
         public Int64 id { get; set; }
 
 
-        [SQLColumn(SQLColumnType.BigInt, "_finishedGoodId", true, false)]
+        [SQLColumn(SQLColumnType.BigInt, nameof(_finishedGoodId), true, false)]
         public Int64 _finishedGoodId { get; set; }
 
 
-        [SQLColumn(SQLColumnType.BigInt, "_workerId", true, false)]
+        [SQLColumn(SQLColumnType.BigInt, nameof(_workerId), true, false)]
         public Int64 _workerId { get; set; }
 
 
-        [SQLColumn(SQLColumnType.BigInt, "_startTime", true, false)]
+        [SQLColumn(SQLColumnType.BigInt, nameof(_startTime), true, false)]
         public Int64 _startTime { get; set; }
 
 
-        [SQLColumn(SQLColumnType.Bit, "_completed", true, false)]
+        [SQLColumn(SQLColumnType.Bit, nameof(_completed), true, false)]
         public bool _completed { get; set; } = false;
+
+
+        [SQLTableLink(typeof(FinishedGoodsInfo),nameof(_finishedGoodId),nameof(FinishedGoodsInfo.id))]
+        public List<FinishedGoodsInfo> _FinishedGoodsInfo { get; set; }
+
+
+        [SQLTableLink(typeof(Users),nameof(_workerId),nameof(Users.id))]
+        public List<Users> _Worker { get; set; }
 
         public ProductionOrders()
         {

@@ -96,8 +96,10 @@
     <Compile Include="ViewModels\Displays\WorkerProductionPlanningViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\CategoryFinishedGoodItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuItems\CompletedProductItemViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\CustomizableIngredientItemViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\FinishedGoodItemViewModel.cs" />
+    <Compile Include="ViewModels\Menus\CompletedProductOrdersMenuControlViewModel.cs" />
     <Compile Include="ViewModels\Menus\FinishedGoodListViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\RawGoodItemViewModel.cs" />
@@ -141,11 +143,17 @@
     <Compile Include="Views\MenuItems\CategoryFinishedGoodItem.xaml.cs">
       <DependentUpon>CategoryFinishedGoodItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MenuItems\CompletedProductItemView.xaml.cs">
+      <DependentUpon>CompletedProductItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuItems\CustomizableIngredientItem.xaml.cs">
       <DependentUpon>CustomizableIngredientItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuItems\FinishedGoodItemView.xaml.cs">
       <DependentUpon>FinishedGoodItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Menus\CompletedProductOrdersMenuControlView.xaml.cs">
+      <DependentUpon>CompletedProductOrdersMenuControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menus\FinishedGoodListView.xaml.cs">
       <DependentUpon>FinishedGoodListView.xaml</DependentUpon>
@@ -225,11 +233,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MenuItems\CompletedProductItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MenuItems\CustomizableIngredientItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MenuItems\FinishedGoodItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Menus\CompletedProductOrdersMenuControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

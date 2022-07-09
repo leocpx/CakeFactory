@@ -105,7 +105,7 @@ namespace Main.ViewModels.Displays
                 _user = UserName,
                 _fullname = FullName,
                 _pass = GetHASH256(Password),
-                _level = UserLevel == 0 ? 1 : 2,
+                _level = UserLevel+1,
             };
 
             _ea.GetEvent<RegisterNewUserEvent>().Publish(newUser);

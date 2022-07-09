@@ -171,9 +171,15 @@ namespace eLongMuSQL
 				result = ExecuteCommandReader<T>(myCommand);
 			}
 
+			CheckForTableLinks(result);
+
 			return result;
 		}
-		public List<T> GetTable<T>() where T: new()
+
+
+
+
+        public List<T> GetTable<T>() where T: new()
         {
 			//var TableName = (typeof(T).GetCustomAttributes().Where(a => a.GetType() == typeof(SQLTableAttribute)).Select(a => (SQLTableAttribute)a).First().TableName);
 			//List<T> result = GetTable<T>(TableName);
@@ -191,13 +197,14 @@ namespace eLongMuSQL
 				myCommand.CommandTimeout = commandTimeOut;
 				result = ExecuteCommandReader<T>(myCommand);
 			}
-
+			CheckForTableLinks(result);
 			return result;
 		}
 		public List<T> GetTableWithCondition<T>(string condition) where T:new()	
         {
 			var TableName = (typeof(T).GetCustomAttributes().Where(a => a.GetType() == typeof(SQLTableAttribute)).Select(a => (SQLTableAttribute)a).First().TableName);
 			List<T> result = GetTableWithCondition<T>(TableName, condition);
+			CheckForTableLinks(result);
 			return result;
 		}
 		public string ExecStorageProcedure(string procedureName, string parameters)
@@ -503,7 +510,41 @@ namespace eLongMuSQL
 		{
 			return col.NotNULL ? " NOT NULL" : "";
 		}
+		private List<PropertyInfo> GetTableLinkProperties<T>()
+        {
+			return typeof(T).GetProperties().Where(_p => _p.GetCustomAttribute(typeof(SQLTableLinkAttribute)) != null).ToList();
+        }
 		#endregion
+		private void CheckForTableLinks<T>(List<T> table) where T : new()
+		{
+			var linkedProperties = GetTableLinkProperties<T>();
+
+			if (linkedProperties !=null)
+            {
+                foreach (var row in table)
+                {
+					foreach (var property in linkedProperties)
+					{
+						var _attr = property.GetCustomAttribute(typeof(SQLTableLinkAttribute)) as SQLTableLinkAttribute;
+						var id1 = _attr.id1;
+						var id2 = _attr.id2;
+						var _type = _attr._TableType;
+
+						var id1Property = row.GetType().GetProperty(id1);
+						var id1Value = id1Property.GetValue(row, null);
+
+						var method = GetType().GetMethods().FirstOrDefault(
+							x => x.Name.Equals(nameof(GetTableWithCondition), StringComparison.OrdinalIgnoreCase) &&
+							x.IsGenericMethod && x.GetParameters().Length == 1);
+
+						MethodInfo generic = method.MakeGenericMethod(_type);
+						var rez = generic.Invoke(this,new object[] { $"where {id2}='{id1Value}'" });
+
+						property.SetValue(row, rez);
+					}
+                }
+            }
+		}
 		private void CreateNewConnection()
 		{
 			if (MyConnection != null)

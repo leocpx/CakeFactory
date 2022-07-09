@@ -21,4 +21,19 @@ namespace eLongMuSQL
         }
     }
 
+
+    public class SQLTableLinkAttribute : Attribute
+    {
+        public Type _TableType { get; set; }
+        public string id1;
+        public string id2; 
+
+        public SQLTableLinkAttribute(Type _tableType,string id1, string id2)
+        {
+            this.id1 = id1;
+            this.id2 = id2;
+            _TableType = _tableType;
+        }
+    }
+
 }

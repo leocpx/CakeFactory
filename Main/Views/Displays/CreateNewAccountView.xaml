@@ -23,6 +23,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Vertical" Grid.Row="0" Margin="5">
@@ -41,17 +42,20 @@
                 <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Width="300" HorizontalAlignment="Left"/>
             </StackPanel>
 
+
+
             <StackPanel Orientation="Vertical" Grid.Row="3" Margin="5">
                 <TextBlock>Access Level</TextBlock>
                 <ComboBox SelectedIndex="{Binding UserLevel}" Width="300" HorizontalAlignment="Left">
                     <ComboBoxItem>Admin</ComboBoxItem>
-                    <ComboBoxItem>Operator</ComboBoxItem>
+                    <ComboBoxItem>Production worker</ComboBoxItem>
+                    <ComboBoxItem>Packaging worker</ComboBoxItem>
                 </ComboBox>
             </StackPanel>
 
             <Button 
                 Width="300" 
-                Grid.Row="4" 
+                Grid.Row="7" 
                 HorizontalAlignment="Left" 
                 Command="{Binding CreateNewUserCommand}"
                 >CREATE NEW USER</Button>

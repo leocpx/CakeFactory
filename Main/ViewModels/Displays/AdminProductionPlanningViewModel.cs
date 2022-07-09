@@ -37,7 +37,7 @@ namespace Main.ViewModels.Displays
             _ea.GetEvent<ReplyUsersListEvent>().Subscribe(
                 users =>
                 {
-                    var userControls = users.Where(user=>user._active && user._level!=1).Select(user => new WorkerScheduleView(user));
+                    var userControls = users.Where(user=>user._active && user._level==2).Select(user => new WorkerScheduleView(user));
                     result = new ObservableCollection<UserControl>(userControls);
                 });
 

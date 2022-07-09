@@ -16,8 +16,11 @@ namespace CoreCake
                     return "SCHEDULES";
                 
                 case MenuItems.production_planning:
-                    return "PRODUCTION PLANNING"; 
-                
+                    return "PRODUCTION PLANNING";
+
+                case MenuItems.packaging_planning:
+                    return "PACKAGING PLANNING";
+
                 case MenuItems.account_administration:
                     return "ACCOUNT ADMINISTRATION"; 
 
@@ -85,6 +88,7 @@ namespace CoreCake
     {
         schedules,
         production_planning,
+        packaging_planning,
         account_administration,
         inventory_management,
         database_management,
