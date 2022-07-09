@@ -12,12 +12,18 @@ namespace CoreCake
         {
             switch (item)
             {
-                case MenuItems.schedules:
-                    return "SCHEDULES";
-                
-                case MenuItems.production_planning:
-                    return "PRODUCTION PLANNING"; 
-                
+                case MenuItems.worker_production_orders:
+                    return "PRODUCTION ORDERS";
+
+                case MenuItems.worker_packaging_orders:
+                    return "PACKAGING ORDERS";
+
+                case MenuItems.admin_production_planning:
+                    return "PRODUCTION PLANNING";
+
+                case MenuItems.admin_packaging_planning:
+                    return "PACKAGING PLANNING";
+
                 case MenuItems.account_administration:
                     return "ACCOUNT ADMINISTRATION"; 
 
@@ -83,8 +89,10 @@ namespace CoreCake
 
     public enum MenuItems
     {
-        schedules,
-        production_planning,
+        worker_production_orders,
+        worker_packaging_orders,
+        admin_production_planning,
+        admin_packaging_planning,
         account_administration,
         inventory_management,
         database_management,

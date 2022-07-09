@@ -1,4 +1,5 @@
-﻿using DBManager;
+﻿using CoreCake;
+using DBManager;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
 using Main.Views.Displays.Items;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using UnityCake.Events;
 
 namespace Main.ViewModels.Displays
@@ -42,12 +44,14 @@ namespace Main.ViewModels.Displays
             set { _finishedGoodName = value; RaisePropertyChanged(nameof(FinishedGoodName)); }
         }
 
+        public ICommand CompleteOrderCommand => new DefaultCommand(CompleteOrderAction, () => true);
         #endregion
         #endregion
         #region -- PRIVATE --
         #region -- CORE --
         private int _maxColumnWidth { get; set; } = 500;
         private int _animationDelay = 1;
+        private ProductionOrders _productionOrder { get; set; }
         #endregion
         #endregion
         #endregion
@@ -60,6 +64,7 @@ namespace Main.ViewModels.Displays
             _ea.GetEvent<OrderClickedEvent>().Subscribe(
                 order =>
                 {
+                    _productionOrder = order;
                     if(DetailColumnWidth==0)
                     {
                         new Thread(() =>
@@ -99,10 +104,21 @@ namespace Main.ViewModels.Displays
 
         #region -- FUNCTIONS --
         #region -- PRIVATE --
+        #region -- CORE --
         private UserControl GenerateWorkerPlanningItem()
         {
             return new WorkerScheduleView(CurrentUser);
         }
+
+        #endregion
+        #region -- ICOMMAND ACTIONS --
+        private void CompleteOrderAction()
+        {
+            _productionOrder._completed = true;
+            DbClient.CompleteOrder(_productionOrder);
+            _ea.GetEvent<CompleteOrderEvent>().Publish(_productionOrder);
+        }
+        #endregion
         #endregion
         #endregion
     }

@@ -35,7 +35,7 @@
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="1">
-                        <Button>COMPLETE ORDER</Button>
+                        <Button Command="{Binding CompleteOrderCommand}">COMPLETE ORDER</Button>
                     </Grid>
                 </Grid>
             </GroupBox>
