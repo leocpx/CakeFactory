@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tables\FinishedGoodsDetails.cs" />
     <Compile Include="tables\FinishedGoodsInfo.cs" />
+    <Compile Include="tables\PackagingOrders.cs" />
     <Compile Include="tables\ProductionOrders.cs" />
     <Compile Include="tables\RawGoodsInfo.cs" />
     <Compile Include="tables\Users.cs" />

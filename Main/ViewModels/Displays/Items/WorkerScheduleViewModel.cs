@@ -35,31 +35,37 @@ namespace Main.ViewModels.Displays.Items
         #endregion
 
         #region -- CONSTRUCTOR --
-        public WorkerScheduleViewModel(Users user) :base()
+        public WorkerScheduleViewModel(Users user) : base()
         {
             User = user;
             WorkerName = user._fullname;
 
-            ScheduleCells = GenerateScheduleCells();
+            ScheduleCells = GenerateScheduleCells<ScheduleCellView>();
         }
         #endregion
 
         #region -- FUNCTIONS --
         #region -- PRIVATE --
-        private ObservableCollection<UserControl> GenerateScheduleCells()
+        private ObservableCollection<UserControl> GenerateScheduleCells<T>() where T : UserControl
         {
             var start = new DateTime(1, 1, 1, 8, 00, 00);
             var end = new DateTime(1, 1, 1, 19, 0, 0);
             var result = new ObservableCollection<UserControl>();
 
-            while(start<=end)
+            while (start <= end)
             {
-                var newCell = new ScheduleCellView(start ,User);
+                //var newCell = new ScheduleCellView(start, User);
+                var newCell = CreateView<T>(start, User);
                 result.Add(newCell);
                 start = start.AddMinutes(30);
             }
 
             return result;
+        }
+
+        private T CreateView<T>(DateTime start, Users user) where T :  UserControl
+        {
+            return (T)Activator.CreateInstance(typeof(T), new object[] { start, user });
         }
         #endregion
         #endregion

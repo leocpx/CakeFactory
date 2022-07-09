@@ -58,10 +58,10 @@ namespace Main.ViewModels.Displays.Items
             TimeFrame = $"{start} - {end}";
 
 
-            _ea.GetEvent<RemoveFinishedGoodScheduleItemEvent>().Subscribe(
+            _ea.GetEvent<RemoveScheduleItemEvent>().Subscribe(
                 item =>
                 {
-                    if(NestedItem == item)
+                    if (NestedItem == item)
                     {
                         NestedItem = null;
 
@@ -71,7 +71,7 @@ namespace Main.ViewModels.Displays.Items
                             startTime = long.Parse(StartTime.ToString("HHmm"))
                         };
 
-                        _ea.GetEvent<AskDeleteOrderEvent>().Publish(orderToDelete);
+                        _ea.GetEvent<AskDeleteProductionOrderEvent>().Publish(orderToDelete);
                     }
                 });
 
@@ -79,17 +79,34 @@ namespace Main.ViewModels.Displays.Items
             _ea.GetEvent<ReplyTodayOrdersEvent>().Subscribe(
                 fgi =>
                 {
-                    if(fgi.startTime == long.Parse(StartTime.ToString("HHmm")) && fgi.worker.id == Worker.id)
+                    if (fgi.startTime == long.Parse(StartTime.ToString("HHmm")) && fgi.worker.id == Worker.id && fgi.ProductionOrder._completed == false)
                         NestedItem = new FinishedGoodScheduleItemView(fgi.OrderRecipe, StartTime);
                 });
-
-            _ea.GetEvent<AskTodayOrdersEvent>().Publish(
-                new AskOrderParams()
+            _ea.GetEvent<ReplyTodayPlanningOrdersEvent>().Subscribe(
+                order =>
                 {
-                    worker = Worker,
-                    startTime = long.Parse(StartTime.ToString("HHmm"))
+                    if (order.startTime == long.Parse(StartTime.ToString("HHmm")) && order.worker.id == Worker.id && order.ProductionOrder._completed == false)
+                        NestedItem = new CompletedFinishedGoodItemView(order.ProductionOrder, StartTime);
                 });
+            _ea.GetEvent<AskTodayOrdersEvent>().Publish(GenerateAskOrderParam());
+
+            _ea.GetEvent<AskTodayPlanningOrdersEvent>().Publish(GenerateAskOrderParam());
+
+            _ea.GetEvent<CompleteOrderEvent>().Subscribe(
+                order =>
+                {
+                    if (NestedItem != null)
+                    {
+                        var _nestedOrder = ((FinishedGoodScheduleItemViewModel)NestedItem.DataContext).ProductionOrder;
+                        if (order == _nestedOrder)
+                            NestedItem = null;
+                    }
+                });
+
+
         }
+
+
 
         #region -- DRAG METHODS --
         public void DragEnter(IDropInfo dropInfo)
@@ -114,7 +131,33 @@ namespace Main.ViewModels.Displays.Items
 
         public void Drop(IDropInfo dropInfo)
         {
-            var data = dropInfo.Data as FinishedGoodItemView;
+            var data1 = dropInfo.Data as FinishedGoodItemView;
+            var data2 = dropInfo.Data as CompletedFinishedGoodItemView;
+
+            TryAsNewProductionOrder(data1);
+            TryAsNewPackagingOrder(data2);
+        }
+        #region -- drop helpers --
+        private void TryAsNewPackagingOrder(CompletedFinishedGoodItemView data)
+        {
+            if (data == null) return;
+            var fgi = ((CompletedFinishedGoodItemViewModel)data.DataContext)._FinishedGoodsInfo;
+
+            NestedItem = new FinishedGoodScheduleItemView(fgi, StartTime);
+
+            var newOrder = new PackagingOrders()
+            {
+                _completed = false,
+                _finishedGoodId = fgi.id,
+                _startTime = long.Parse(StartTime.ToString("HHmm")),
+                _workerId = Worker.id
+            };
+
+            _ea.GetEvent<RegisterNewPackagingOrderEvent>().Publish(newOrder);
+        }
+        private void TryAsNewProductionOrder(FinishedGoodItemView data)
+        {
+            if (data == null) return;
             var fgi = ((FinishedGoodItemViewModel)data.DataContext)._FinishedGoodInfo;
 
             NestedItem = new FinishedGoodScheduleItemView(fgi, StartTime);
@@ -130,10 +173,22 @@ namespace Main.ViewModels.Displays.Items
             _ea.GetEvent<RegisterNewProductionOrderEvent>().Publish(newOrder);
         }
         #endregion
+
+        #endregion
         #endregion
 
         #region -- FUNCTIONS --
         #region -- PRIVATE --
+        #region -- CORE --
+        private AskOrderParams GenerateAskOrderParam()
+        {
+            return new AskOrderParams()
+            {
+                worker = Worker,
+                startTime = long.Parse(StartTime.ToString("HHmm"))
+            };
+        }
+        #endregion
         #endregion
         #endregion
     }

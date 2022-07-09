@@ -3,6 +3,7 @@ using System;
 
 namespace DBManager.Tables
 {
+
     [SQLTable("ProductionOrders")]
     public class ProductionOrders
     {

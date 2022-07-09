@@ -91,7 +91,8 @@ namespace Main.ViewModels.Displays.Items
                     {
                         OrderRecipe = fgi,
                         startTime = long.Parse(StartTime.ToString("HHmm")),
-                        worker = CurrentUser
+                        worker = CurrentUser,
+                        ProductionOrder = this.ProductionOrder,
                     });
             }
         }
@@ -102,7 +103,7 @@ namespace Main.ViewModels.Displays.Items
         #region -- ICOMMAND ACITONS --
         private void RemoveAction()
         {
-            _ea.GetEvent<RemoveFinishedGoodScheduleItemEvent>().Publish(ownerControl);
+            _ea.GetEvent<RemoveScheduleItemEvent>().Publish(ownerControl);
         }
         private void ClickedAction()
         {

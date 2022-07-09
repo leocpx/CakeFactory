@@ -76,7 +76,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\AskDeleteOrderEvent.cs" />
+    <Compile Include="Events\AskDeletePackagingOrderEvent.cs" />
+    <Compile Include="Events\AskDeleteProductionOrderEvent.cs" />
     <Compile Include="Events\AskDisplayMenuSetterEvent.cs" />
     <Compile Include="Events\AskFInishedGoodInfoEvent.cs" />
     <Compile Include="AskOrderParams.cs" />
@@ -84,19 +85,22 @@
     <Compile Include="Events\AskRawGoodsInfoEvent.cs" />
     <Compile Include="Events\AskSecondSetterMenuEvent.cs" />
     <Compile Include="Events\AskTodayOrdersEvent.cs" />
+    <Compile Include="Events\AskTodayPlanningOrdersEvent.cs" />
     <Compile Include="Events\AskUsersListEvent.cs" />
     <Compile Include="Events\CloseLoginDialogEvent.cs" />
     <Compile Include="Events\AskLoggedUser.cs" />
     <Compile Include="Events\CloseMainWindowEvent.cs" />
+    <Compile Include="Events\CompleteOrderEvent.cs" />
     <Compile Include="Events\FinishedGoodCategoryItemClickedEvent.cs" />
     <Compile Include="Events\MenuItemClickedEvent.cs" />
     <Compile Include="Events\OrderClickedEvent.cs" />
     <Compile Include="Events\RegisterFinishedGoodsDetailsEvent.cs" />
     <Compile Include="Events\RegisterNewFinishedGoodInfoEvent.cs" />
+    <Compile Include="Events\RegisterNewPackagingOrderEvent.cs" />
     <Compile Include="Events\RegisterNewProductionOrderEvent.cs" />
     <Compile Include="Events\RegisterNewRawGoodInfoEvent.cs" />
     <Compile Include="Events\RegisterNewUserEvent.cs" />
-    <Compile Include="Events\RemoveFinishedGoodScheduleItemEvent.cs" />
+    <Compile Include="Events\RemoveScheduleItemEvent.cs" />
     <Compile Include="Events\RemoveIngredientItemFromRecipeEvent.cs" />
     <Compile Include="Events\ReplyDisplaySetterEvent.cs" />
     <Compile Include="Events\ReplyFinishedGoodInfoEvent.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="Events\ReplyRawGoodsInfoEvent.cs" />
     <Compile Include="Events\ReplySecondMenuSetterEvent.cs" />
     <Compile Include="Events\ReplyTodayOrdersEvent.cs" />
+    <Compile Include="Events\ReplyTodayPlanningOrdersEvent.cs" />
     <Compile Include="Events\ReplyUsersListEvent.cs" />
     <Compile Include="Events\SetDisplayHeaderEvent.cs" />
     <Compile Include="Events\SetMainMenuHeaderEvent.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="Events\ReplyLoggedUser.cs" />
     <Compile Include="Events\SetSecondMenuHeaderEvent.cs" />
     <Compile Include="Events\SetSecondMenuItems.cs" />
+    <Compile Include="Events\UpdateCompletedGoodsMenuItemsEvent.cs" />
     <Compile Include="Events\UpdateExistingRawGoodsInfoEvent.cs" />
     <Compile Include="Events\UpdateExistingUserListEvent.cs" />
     <Compile Include="Events\UserItemCLickedEvent.cs" />

@@ -3,6 +3,6 @@ using System;
 
 namespace UnityCake.Events
 {
-    public class RemoveFinishedGoodScheduleItemEvent : PubSubEvent<object>
+    public class RemoveScheduleItemEvent : PubSubEvent<object>
     { }
 }
