@@ -136,6 +136,10 @@ namespace DBManager
             _muSql.InsertEntry(newOrder);
         }
 
+        public static List<PackagingOrders> GetPackagingOrders()
+        {
+            return _muSql.GetTable<PackagingOrders>();
+        }
         public static PackagingOrders GetPackagingOrder(long _workerId, long startTime)
         {
             var todayID = DateTime.Now.ToString("yyyyMMdd000000000");

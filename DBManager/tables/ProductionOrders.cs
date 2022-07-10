@@ -36,6 +36,7 @@ namespace DBManager.Tables
         [SQLTableLink(typeof(Users),nameof(_workerId),nameof(Users.id))]
         public List<Users> _Worker { get; set; }
 
+
         public ProductionOrders()
         {
             id = Int64.Parse(DateTime.Now.ToString("yyyyMMddHHmmssfff"));

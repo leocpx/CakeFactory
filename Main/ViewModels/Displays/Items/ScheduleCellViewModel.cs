@@ -141,7 +141,10 @@ namespace Main.ViewModels.Displays.Items
                 newOrder = GetNewProductionOrder(productionData);
 
             if (packagingData != null)
+            {
                 newOrder = GetNewPackagingOrder(packagingData);
+                _ea.GetEvent<PackagingOrderAssignedToWorkerEvent>().Publish(packagingData);
+            }
 
             _ea.GetEvent<RegisterNewOrderEvent>().Publish(newOrder);
         }

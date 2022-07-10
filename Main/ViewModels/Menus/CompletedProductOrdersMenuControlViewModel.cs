@@ -1,4 +1,8 @@
-﻿using Main.ViewModels.Menus.abstracts;
+﻿using DBManager.Tables;
+using Main.ViewModels.Displays.Items;
+using Main.ViewModels.MenuItems;
+using Main.ViewModels.Menus.abstracts;
+using Main.Views.Displays.Items;
 using Main.Views.MenuItems;
 using System;
 using System.Collections.Generic;
@@ -7,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using UnityCake.Events;
 
 namespace Main.ViewModels.Menus
 {
@@ -24,6 +29,25 @@ namespace Main.ViewModels.Menus
         public CompletedProductOrdersMenuControlViewModel() : base()
         {
             CompletedProductsList = GetCompletedProducts();
+
+            _ea.GetEvent<PackagingOrderAssignedToWorkerEvent>().Subscribe(
+                packageItemControl =>
+                {
+                    CompletedProductsList.Remove(packageItemControl);
+                });
+
+            _ea.GetEvent<RemoveFinishedGoodScheduleItemEvent>().Subscribe(
+                userControl =>
+                {
+                    var data = userControl.DataContext as FinishedGoodScheduleItemViewModel;
+                    var _order = data.Order as PackagingOrders;
+                    var _productionOrder = DBManager.DbClient.GetCompletedProductOrders().Where(_p=>_p.id == _order._productionOrderId).FirstOrDefault();
+
+
+                    Console.WriteLine();
+                    var uc = new CompletedProductItemView(_productionOrder);
+                    CompletedProductsList.Add(uc);
+                });
         }
         #endregion
 
@@ -31,7 +55,18 @@ namespace Main.ViewModels.Menus
         #region -- PRIVATE --
         private ObservableCollection<UserControl> GetCompletedProducts()
         {
-            var completedProducts = DBManager.DbClient.GetCompletedProductOrders().Select(fg => new CompletedProductItemView(fg));
+
+            var totalOrders = DBManager.DbClient.GetCompletedProductOrders();
+            var assignedOrderIDs = DBManager.DbClient.GetPackagingOrders().Select(a=>a._productionOrderId);
+            var result = new List<ProductionOrders>();
+
+            foreach (var order in totalOrders)
+                if(!assignedOrderIDs.Contains(order.id))
+                    result.Add(order);
+
+
+            var completedProducts = result.Select(fg => new CompletedProductItemView(fg));
+
             return new ObservableCollection<UserControl>(completedProducts);
         }
         #endregion
