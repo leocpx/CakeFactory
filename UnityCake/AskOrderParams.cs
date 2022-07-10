@@ -8,5 +8,6 @@ namespace UnityCake.Events
         public long startTime { get; set; }
         public FinishedGoodsInfo FinishedGoodInfo { get; set; }
         public PackagingOrders packagingOrder { get; set; }
+        public ProductionOrders productionOrder { get; set; }
     }
 }

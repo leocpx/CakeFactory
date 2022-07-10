@@ -93,12 +93,13 @@ namespace DBManager
 
         }
 
-        public static void CompleteProductionOrder(IOrder order)
+        public static void CompleteOrder<T>(IOrder order) where T : class, new()
         {
             order._completed = true;
-            var productionOrder = order as ProductionOrders;
+            var productionOrder = order as T;
             _muSql.UpdateEntry(productionOrder);
         }
+
 
         public static List<FinishedGoodsDetails> GetFinishedGoodDetails(long finishedGoodId)
         {
@@ -178,7 +179,7 @@ namespace DBManager
 
 
 
-        public static FinishedGoodsInfo GetFinishedGoodOrder(long workerId, long startTime)
+        public static FinishedGoodsInfo GetFinishedGoodInfo(long workerId, long startTime)
         {
 
             var todayID = DateTime.Now.ToString("yyyyMMdd000000000");

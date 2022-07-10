@@ -91,7 +91,8 @@
     <Compile Include="Events\CompleteOrderEvent.cs" />
     <Compile Include="Events\FinishedGoodCategoryItemClickedEvent.cs" />
     <Compile Include="Events\MenuItemClickedEvent.cs" />
-    <Compile Include="Events\OrderClickedEvent.cs" />
+    <Compile Include="Events\PackagingOrderClickedEvent.cs" />
+    <Compile Include="Events\ProductionOrderClickedEvent.cs" />
     <Compile Include="Events\PackagingOrderAssignedToWorkerEvent.cs" />
     <Compile Include="Events\RegisterFinishedGoodsDetailsEvent.cs" />
     <Compile Include="Events\RegisterNewFinishedGoodInfoEvent.cs" />

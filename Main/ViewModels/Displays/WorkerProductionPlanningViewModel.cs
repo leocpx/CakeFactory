@@ -48,7 +48,7 @@ namespace Main.ViewModels.Displays
         public ICommand CompleteOrderCommand => new DefaultCommand(CompleteOrderAction, () => true);
         #endregion
         #region -- CORE --
-        public IOrder _ProductionOrder { get; set; }
+        public IOrder Order { get; set; }
         #endregion
         #endregion
         #region -- PRIVATE --
@@ -64,10 +64,10 @@ namespace Main.ViewModels.Displays
         {
             WorkerPlanningContent = GenerateWorkerPlanningItem();
 
-            _ea.GetEvent<OrderClickedEvent>().Subscribe(
+            _ea.GetEvent<ProductionOrderClickedEvent>().Subscribe(
                 order =>
                 {
-                    _ProductionOrder = order;
+                    Order = order;
                     if (DetailColumnWidth==0)
                     {
                         new Thread(() =>
@@ -80,15 +80,38 @@ namespace Main.ViewModels.Displays
                         }).Start();
                     }
 
-                    RecipeIngredients = GetRecipeIngredientItems(order as ProductionOrders);
+                    var _order = order as ProductionOrders;
+                    RecipeIngredients = GetRecipeIngredientItems(_order._finishedGoodId);
                     RaisePropertyChanged(nameof(RecipeIngredients));
                     FinishedGoodName = DbClient.GetFinishedGoodInfo(order._finishedGoodId)._finishedGoodName;
                 });
-        }
 
-        private ObservableCollection<UserControl> GetRecipeIngredientItems(DBManager.Tables.ProductionOrders order)
+            _ea.GetEvent<PackagingOrderClickedEvent>().Subscribe(
+                order =>
+                {
+                    Order = order;
+                    if (DetailColumnWidth == 0)
+                    {
+                        new Thread(() =>
+                        {
+                            for (int i = 0; i < _maxColumnWidth; i += 2)
+                            {
+                                DetailColumnWidth = i;
+                                Thread.Sleep(_animationDelay);
+                            }
+                        }).Start();
+                    }
+
+                    var _order = order as PackagingOrders;
+
+                    RecipeIngredients = GetRecipeIngredientItems(_order._finishedGoodId);
+                    RaisePropertyChanged(nameof(RecipeIngredients));
+                    FinishedGoodName = DbClient.GetFinishedGoodInfo(_order._finishedGoodId)._finishedGoodName;
+                });
+        }
+        private ObservableCollection<UserControl> GetRecipeIngredientItems(long finishedGoodId)
         {
-            var finishedGoodDetails = DbClient.GetFinishedGoodDetails(order._finishedGoodId);
+            var finishedGoodDetails = DbClient.GetFinishedGoodDetails(finishedGoodId);
             var ingredients = finishedGoodDetails.Select(
                 fg =>
                 {
@@ -110,10 +133,19 @@ namespace Main.ViewModels.Displays
         #region -- ICOMMANDS --
         private void CompleteOrderAction()
         {
-            if (_ProductionOrder != null)
+            if (Order != null)
             {
-                DbClient.CompleteProductionOrder(_ProductionOrder);
-                _ea.GetEvent<CompleteOrderEvent>().Publish(_ProductionOrder);
+                if (CurrentUser._level == 2)
+                {
+                    DbClient.CompleteOrder<ProductionOrders>(Order);
+                    _ea.GetEvent<CompleteOrderEvent>().Publish(Order); 
+                }
+
+                if (CurrentUser._level == 3)
+                {
+                    DbClient.CompleteOrder<PackagingOrders>(Order);
+                    _ea.GetEvent<CompleteOrderEvent>().Publish(Order);
+                }
             }
         }
         #endregion

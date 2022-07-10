@@ -94,7 +94,8 @@ namespace Main.ViewModels.Displays.Items
             _ea.GetEvent<ReplyTodayOrdersEvent>().Subscribe(
                 askParam =>
                 {
-                    if(askParam.startTime == long.Parse(StartTime.ToString("HHmm")) && askParam.worker.id == Worker.id)
+                    var completed = askParam.productionOrder != null ? askParam.productionOrder._completed : askParam.packagingOrder._completed;
+                    if (askParam.startTime == long.Parse(StartTime.ToString("HHmm")) && askParam.worker.id == Worker.id && !completed)
                     {
                         NestedItem = new FinishedGoodScheduleItemView(askParam.FinishedGoodInfo, StartTime);
                         var _nestedVm = NestedItem.DataContext as IScheduleItem;

@@ -6,6 +6,6 @@ using System.Collections.Generic;
 namespace UnityCake.Events
 {
     //public class OrderClickedEvent : PubSubEvent<ProductionOrders>
-    public class OrderClickedEvent : PubSubEvent<IOrder>
+    public class ProductionOrderClickedEvent : PubSubEvent<IOrder>
     { }
 }

@@ -97,11 +97,13 @@ namespace Main.Models
             _ea.GetEvent<AskTodayOrdersEvent>().Subscribe(
                 askParam =>
                 {
-                    var fgi = DbClient.GetFinishedGoodOrder(askParam.worker.id, askParam.startTime);
+                    var fgi = DbClient.GetFinishedGoodInfo(askParam.worker.id, askParam.startTime);
 
                     if(fgi!=null)
                     {
                         askParam.FinishedGoodInfo = fgi;
+                        askParam.productionOrder = DbClient.GetProductionOrder(askParam.worker.id, askParam.startTime);
+
                         _ea.GetEvent<ReplyTodayOrdersEvent>().Publish(askParam);
                         return;
                     }

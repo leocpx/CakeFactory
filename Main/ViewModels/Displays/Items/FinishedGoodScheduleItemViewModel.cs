@@ -110,7 +110,10 @@ namespace Main.ViewModels.Displays.Items
         private void ClickedAction()
         {
             if (CurrentUser._level == 2)
-                _ea.GetEvent<OrderClickedEvent>().Publish(Order);
+                _ea.GetEvent<ProductionOrderClickedEvent>().Publish(Order);
+
+            if (CurrentUser._level == 3)
+                _ea.GetEvent<PackagingOrderClickedEvent>().Publish(Order);
         }
         #endregion
         #endregion
