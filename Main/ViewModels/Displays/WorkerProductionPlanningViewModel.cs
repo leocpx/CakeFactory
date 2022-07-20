@@ -2,6 +2,7 @@
 using CoreCake;
 using DBManager;
 using DBManager.Tables;
+using Main.Models;
 using Main.ViewModels.Menus.abstracts;
 using Main.Views.dialogs;
 using Main.Views.Displays.Items;
@@ -46,7 +47,8 @@ namespace Main.ViewModels.Displays
             set { _finishedGoodName = value; RaisePropertyChanged(nameof(FinishedGoodName)); }
         }
 
-        public ICommand CompleteOrderCommand => new DefaultCommand(CompleteOrderAction, () => true);
+        //public ICommand CompleteOrderCommand => new DefaultCommand(CompleteOrderAction, () => true);
+        public ICommand CompleteOrderCommand => new ConfirmationDialogCommand("Please confirm you want to complete the order.",CompleteOrderAction);
         #endregion
         #region -- CORE --
         public IOrder Order { get; set; }
@@ -134,8 +136,8 @@ namespace Main.ViewModels.Displays
         #region -- ICOMMANDS --
         private void CompleteOrderAction()
         {
-            Action _executeAction = () =>
-            {
+            //Action _executeAction = () =>
+            //{
                 if (Order != null)
                 {
                     if (CurrentUser._level == 2)
@@ -150,9 +152,9 @@ namespace Main.ViewModels.Displays
                         _ea.GetEvent<CompleteOrderEvent>().Publish(Order);
                     }
                 }
-            };
+            //};
 
-            new ConfirmationDialogView("Please confirm you want to complete the order", _executeAction).Show();
+            //new ConfirmationDialogView("Please confirm you want to complete the order", _executeAction).Show();
         }
         #endregion
         private UserControl GenerateWorkerPlanningItem()

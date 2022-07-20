@@ -1,5 +1,6 @@
 ﻿using CoreCake;
 using DBManager.Tables;
+using Main.Models;
 using Main.ViewModels.Menus.abstracts;
 using Main.Views.dialogs;
 using Main.Views.Displays;
@@ -77,7 +78,7 @@ namespace Main.ViewModels.Displays
 
 
         #region -- ICOMMANDS --
-        public DefaultCommand CreateNewUserCommand => new DefaultCommand(CreateNewUserAction, CanCreateNewUser);
+        public ICommand CreateNewUserCommand => new ConfirmationDialogCommand($"Please confirm user {UserName}", CreateNewUserAction);
         #endregion
         #endregion
 
@@ -101,32 +102,23 @@ namespace Main.ViewModels.Displays
         #region -- ICOMMAND ACTIONS --
         private void CreateNewUserAction()
         {
-
-
-            Action executeAction = () =>
+            var newUser = new Users()
             {
-
-                var newUser = new Users()
-                {
-                    _user = UserName,
-                    _fullname = FullName,
-                    _pass = GetHASH256(Password),
-                    _level = UserLevel + 1,
-                };
-
-                _ea.GetEvent<RegisterNewUserEvent>().Publish(newUser);
-                _ea.GetEvent<UpdateExistingUserListEvent>().Publish();
-                _ea.GetEvent<AskUsersListEvent>().Publish();
-                UpdateCreateButton();
+                _user = UserName,
+                _fullname = FullName,
+                _pass = GetHASH256(Password),
+                _level = UserLevel + 1,
             };
 
-            new ConfirmationDialogView($"Please confirm user {UserName}",executeAction).Show();
+            _ea.GetEvent<RegisterNewUserEvent>().Publish(newUser);
+            _ea.GetEvent<UpdateExistingUserListEvent>().Publish();
+            _ea.GetEvent<AskUsersListEvent>().Publish();
+            UpdateCreateButton();
         }
         #region -- HELPERS --
         private void UpdateCreateButton()
         {
             RaisePropertyChanged(nameof(CreateNewUserCommand));
-            CreateNewUserCommand.RaiseCanExecuteChanged();
         }
         private bool CanCreateNewUser()
         {

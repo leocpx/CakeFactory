@@ -1,6 +1,7 @@
 ﻿using CoreCake;
 using DBManager.Tables;
 using GongSolutions.Wpf.DragDrop;
+using Main.Models;
 using Main.ViewModels.MenuItems;
 using Main.ViewModels.Menus.abstracts;
 using Main.Views.dialogs;
@@ -61,7 +62,7 @@ namespace Main.ViewModels
         }
 
         #region -- ICOMMANDS --
-        public ICommand CreateFinishedGoodCommand => new DefaultCommand(CreateFinishedGoodAction, () => true);
+        public ICommand CreateFinishedGoodCommand => new ConfirmationDialogCommand($"Please confirm registration of new Finished good \n{FinishedGoodName}", CreateFinishedGoodAction);
         #endregion
         #endregion
         #endregion
@@ -93,9 +94,6 @@ namespace Main.ViewModels
         #region -- ICOMMANDS --
         private void CreateFinishedGoodAction()
         {
-
-            Action _executeAction = () =>
-            {
                 var newFinishedGoodInfo = new FinishedGoodsInfo()
                 {
                     _authorId = CurrentUser.id,
@@ -108,9 +106,6 @@ namespace Main.ViewModels
 
                 _ea.GetEvent<RegisterNewFinishedGoodInfoEvent>().Publish(newFinishedGoodInfo);
                 _ea.GetEvent<RegisterFinishedGoodsDetailsEvent>().Publish(finishedGoodsDetails);
-            };
-
-            new ConfirmationDialogView($"Please confirm registration of new Finished good \n{FinishedGoodName}", _executeAction).Show();
         }
         #region -- HELPERS --
         private List<FinishedGoodsDetails> GenerateFinishedGoodDetails(long fgId)

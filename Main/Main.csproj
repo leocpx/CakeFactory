@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ConfirmationDialogCommand.cs" />
     <Compile Include="Models\EventManager.cs" />
     <Compile Include="ViewModels\dialogs\ConfirmationDialogViewModel.cs" />
     <Compile Include="ViewModels\Displays\AdminPackagingPlanningViewModel.cs" />
