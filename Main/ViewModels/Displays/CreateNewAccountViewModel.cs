@@ -1,6 +1,7 @@
 ﻿using CoreCake;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
+using Main.Views.dialogs;
 using Main.Views.Displays;
 using System;
 using System.Collections.Generic;
@@ -100,18 +101,26 @@ namespace Main.ViewModels.Displays
         #region -- ICOMMAND ACTIONS --
         private void CreateNewUserAction()
         {
-            var newUser = new Users()
+
+
+            Action executeAction = () =>
             {
-                _user = UserName,
-                _fullname = FullName,
-                _pass = GetHASH256(Password),
-                _level = UserLevel+1,
+
+                var newUser = new Users()
+                {
+                    _user = UserName,
+                    _fullname = FullName,
+                    _pass = GetHASH256(Password),
+                    _level = UserLevel + 1,
+                };
+
+                _ea.GetEvent<RegisterNewUserEvent>().Publish(newUser);
+                _ea.GetEvent<UpdateExistingUserListEvent>().Publish();
+                _ea.GetEvent<AskUsersListEvent>().Publish();
+                UpdateCreateButton();
             };
 
-            _ea.GetEvent<RegisterNewUserEvent>().Publish(newUser);
-            _ea.GetEvent<UpdateExistingUserListEvent>().Publish();
-            _ea.GetEvent<AskUsersListEvent>().Publish();
-            UpdateCreateButton();
+            new ConfirmationDialogView($"Please confirm user {UserName}",executeAction).Show();
         }
         #region -- HELPERS --
         private void UpdateCreateButton()

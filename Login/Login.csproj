@@ -117,10 +117,6 @@
       <Project>{965afa51-b10d-4595-9546-77739b2b4ba9}</Project>
       <Name>DBManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MainGUI\MainGUI.csproj">
-      <Project>{1c4abcde-0f4e-4f25-be60-c4c2126dbc90}</Project>
-      <Name>MainGUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Main\Main.csproj">
       <Project>{a9788351-f1f3-4c46-807d-018c43206c8f}</Project>
       <Name>Main</Name>

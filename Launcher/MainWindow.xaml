@@ -12,8 +12,9 @@
         Title="MainWindow"  Height="450" Width="800">
     <Grid>
         <MediaElement UnloadedBehavior="Manual"  Name="_medPlay" LoadedBehavior="Manual" Source="/Resources/production ID 4458664.mp4" Opacity="1" />
-        <Image Margin="-150" Source="pack://application:,,,/Resources/logo4.png" Opacity="0.8"/>
-        <Rectangle Fill="#FF5A9AE0" Opacity="0.2"/>
+        <Image Margin="-150" Source="pack://application:,,,/Resources/logo4.png" Opacity="1"/>
+        
+        <Rectangle Fill="#FF08131F" Opacity="0.7"/>
         <Grid>
             <TextBlock Margin="10,0,30,30" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Opacity="0.7" Foreground="White">Please wait</TextBlock>
             <TextBlock Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" Opacity="0.9" Foreground="white" Text="{Binding Text1Label}"/>

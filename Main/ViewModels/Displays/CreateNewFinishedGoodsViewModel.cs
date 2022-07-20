@@ -3,6 +3,7 @@ using DBManager.Tables;
 using GongSolutions.Wpf.DragDrop;
 using Main.ViewModels.MenuItems;
 using Main.ViewModels.Menus.abstracts;
+using Main.Views.dialogs;
 using Main.Views.MenuItems;
 using System;
 using System.Collections.Generic;
@@ -92,18 +93,24 @@ namespace Main.ViewModels
         #region -- ICOMMANDS --
         private void CreateFinishedGoodAction()
         {
-            var newFinishedGoodInfo = new FinishedGoodsInfo()
-            {
-                _authorId = CurrentUser.id,
-                _finishedGoodName = FinishedGoodName,
-                _retailprice = RetailPrice,
-                _wholesaleprice = WholeSalePrice,
-                _category = Category,
-            };
-            var finishedGoodsDetails = GenerateFinishedGoodDetails(newFinishedGoodInfo.id);
 
-            _ea.GetEvent<RegisterNewFinishedGoodInfoEvent>().Publish(newFinishedGoodInfo);
-            _ea.GetEvent<RegisterFinishedGoodsDetailsEvent>().Publish(finishedGoodsDetails);
+            Action _executeAction = () =>
+            {
+                var newFinishedGoodInfo = new FinishedGoodsInfo()
+                {
+                    _authorId = CurrentUser.id,
+                    _finishedGoodName = FinishedGoodName,
+                    _retailprice = RetailPrice,
+                    _wholesaleprice = WholeSalePrice,
+                    _category = Category,
+                };
+                var finishedGoodsDetails = GenerateFinishedGoodDetails(newFinishedGoodInfo.id);
+
+                _ea.GetEvent<RegisterNewFinishedGoodInfoEvent>().Publish(newFinishedGoodInfo);
+                _ea.GetEvent<RegisterFinishedGoodsDetailsEvent>().Publish(finishedGoodsDetails);
+            };
+
+            new ConfirmationDialogView($"Please confirm registration of new Finished good \n{FinishedGoodName}", _executeAction).Show();
         }
         #region -- HELPERS --
         private List<FinishedGoodsDetails> GenerateFinishedGoodDetails(long fgId)
@@ -151,7 +158,7 @@ namespace Main.ViewModels
             var droppedObject = dropInfo.Data as RawGoodItemView;
             var newIngredient = new CustomizableIngredientItem(droppedObject._RawGoodsInfo);
             CurrentRecipeListView.Add(newIngredient);
-        } 
+        }
         #endregion
         #endregion
         #endregion

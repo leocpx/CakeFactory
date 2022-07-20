@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\EventManager.cs" />
+    <Compile Include="ViewModels\dialogs\ConfirmationDialogViewModel.cs" />
     <Compile Include="ViewModels\Displays\AdminPackagingPlanningViewModel.cs" />
     <Compile Include="ViewModels\Displays\AdminProductionPlanningViewModel.cs" />
     <Compile Include="ViewModels\Displays\CreateNewFinishedGoodsViewModel.cs" />
@@ -108,6 +109,9 @@
     <Compile Include="ViewModels\Menus\abstracts\GUIEntity.cs" />
     <Compile Include="ViewModels\Menus\MainMenuControlViewModel.cs" />
     <Compile Include="ViewModels\Menus\SecondMenuViewModel.cs" />
+    <Compile Include="Views\dialogs\ConfirmationDialogView.xaml.cs">
+      <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Displays\AdminPackagingPlanningView.xaml.cs">
       <DependentUpon>AdminPackagingPlanningView.xaml</DependentUpon>
     </Compile>
@@ -189,6 +193,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\dialogs\ConfirmationDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Displays\AdminPackagingPlanningView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

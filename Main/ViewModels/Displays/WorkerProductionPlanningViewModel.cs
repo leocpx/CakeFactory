@@ -3,6 +3,7 @@ using CoreCake;
 using DBManager;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
+using Main.Views.dialogs;
 using Main.Views.Displays.Items;
 using System;
 using System.Collections.Generic;
@@ -133,20 +134,25 @@ namespace Main.ViewModels.Displays
         #region -- ICOMMANDS --
         private void CompleteOrderAction()
         {
-            if (Order != null)
+            Action _executeAction = () =>
             {
-                if (CurrentUser._level == 2)
+                if (Order != null)
                 {
-                    DbClient.CompleteOrder<ProductionOrders>(Order);
-                    _ea.GetEvent<CompleteOrderEvent>().Publish(Order); 
-                }
+                    if (CurrentUser._level == 2)
+                    {
+                        DbClient.CompleteOrder<ProductionOrders>(Order);
+                        _ea.GetEvent<CompleteOrderEvent>().Publish(Order);
+                    }
 
-                if (CurrentUser._level == 3)
-                {
-                    DbClient.CompleteOrder<PackagingOrders>(Order);
-                    _ea.GetEvent<CompleteOrderEvent>().Publish(Order);
+                    if (CurrentUser._level == 3)
+                    {
+                        DbClient.CompleteOrder<PackagingOrders>(Order);
+                        _ea.GetEvent<CompleteOrderEvent>().Publish(Order);
+                    }
                 }
-            }
+            };
+
+            new ConfirmationDialogView("Please confirm you want to complete the order", _executeAction).Show();
         }
         #endregion
         private UserControl GenerateWorkerPlanningItem()

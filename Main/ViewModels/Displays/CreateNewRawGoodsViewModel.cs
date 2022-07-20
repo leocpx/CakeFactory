@@ -1,6 +1,7 @@
 ﻿using CoreCake;
 using DBManager.Tables;
 using Main.ViewModels.Menus.abstracts;
+using Main.Views.dialogs;
 using Main.Views.Displays;
 using System;
 using System.Collections.Generic;
@@ -94,18 +95,23 @@ namespace Main.ViewModels.Displays
         #region -- ICOMMAND ACTIONS --
         private void CreateNewRawGoodAction()
         {
-            var newRawGood = new RawGoodsInfo()
-            {
-                _barcode = Barcode,
-                _orderfromconame = OrderFromCoName,
-                _phonenumber = PhoneNumber,
-                _priceperpiece = PricePerPiece,
-                _rawgoodname = RawGoodName,
-                _units = Units.Split(':')[1],
-            };
+            Action _executeAction = () =>
+           {
+               var newRawGood = new RawGoodsInfo()
+               {
+                   _barcode = Barcode,
+                   _orderfromconame = OrderFromCoName,
+                   _phonenumber = PhoneNumber,
+                   _priceperpiece = PricePerPiece,
+                   _rawgoodname = RawGoodName,
+                   _units = Units.Split(':')[1],
+               };
 
-            _ea.GetEvent<RegisterNewRawGoodInfoEvent>().Publish(newRawGood);
-            _ea.GetEvent<AskRawGoodsInfoEvent>().Publish();
+               _ea.GetEvent<RegisterNewRawGoodInfoEvent>().Publish(newRawGood);
+               _ea.GetEvent<AskRawGoodsInfoEvent>().Publish();
+           };
+
+            new ConfirmationDialogView($"Please confirm registration of new raw ingredient\n{RawGoodName}", _executeAction).Show();
         }
         #endregion
         #endregion
