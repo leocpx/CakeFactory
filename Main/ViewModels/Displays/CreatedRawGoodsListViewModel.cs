@@ -16,7 +16,7 @@ namespace Main.ViewModels.Displays
     {
         #region -- PROPERTIES --
         #region -- PUBLIC --
-        #region -- BINDED
+        #region -- BINDED --
         public ObservableCollection<UserControl> RawGoodsListViewItems { get; set; }
         #endregion
         #endregion

@@ -1,10 +1,9 @@
 ﻿using eLongMuSQL;
 using System;
+using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-
-
     [SQLTable("RawGoodsInfo")]
     public class RawGoodsInfo
     {
@@ -33,6 +32,9 @@ namespace DBManager.Tables
 
         [SQLColumn(SQLColumnType.Varchar, "_units", true, false)]
         public string _units { get; set; }
+
+        [SQLTableLink(typeof(RawGoodsInventory),nameof(id),nameof(RawGoodsInventory.id))]
+        public List<RawGoodsInventory> _RawGoodsInventory { get; set; }
 
         public RawGoodsInfo()
         {

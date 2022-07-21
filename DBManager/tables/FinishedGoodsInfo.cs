@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-    [SQLTable("FinishedGoodsInfo")]
+
+
+
+    [SQLTable(nameof(FinishedGoodsInfo))]
     public class FinishedGoodsInfo
     {
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]
@@ -37,6 +40,10 @@ namespace DBManager.Tables
 
         [SQLTableLink(typeof(Users),nameof(_authorId),nameof(Users.id))]
         public List<Users> CreatedBy { get; set; }
+
+
+        [SQLTableLink(typeof(FinishedGoodsInventory),nameof(id),nameof(FinishedGoodsInventory.id))]
+        public List<FinishedGoodsInventory> _FinishedGoodsInventory { get; set; }
 
 
         public FinishedGoodsInfo()

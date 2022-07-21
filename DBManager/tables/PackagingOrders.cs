@@ -8,6 +8,7 @@ namespace DBManager.Tables
     [SQLTable(nameof(PackagingOrders))]
     public class PackagingOrders : IOrder
     {
+        #region -- COLUMNS --
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]
         public Int64 id { get; set; }
 
@@ -32,6 +33,11 @@ namespace DBManager.Tables
         public bool _completed { get; set; } = false;
 
 
+        [SQLColumn(SQLColumnType.BigInt, nameof(_packagingTypeID), true, false)]
+        public Int64 _packagingTypeID { get; set; }
+        #endregion
+
+        #region -- LINKED TABLE --
         [SQLTableLink(typeof(FinishedGoodsInfo), nameof(_finishedGoodId), nameof(FinishedGoodsInfo.id))]
         public List<FinishedGoodsInfo> _FinishedGoodsInfo { get; set; }
 
@@ -44,9 +50,15 @@ namespace DBManager.Tables
         public List<ProductionOrders> _ProductionOrder { get; set; }
 
 
+        [SQLTableLink(typeof(PackagingTypeInfo), nameof(_packagingTypeID), nameof(PackagingTypeInfo.id))]
+        public List<PackagingTypeInfo> _PackagingTypeInfo { get; set; }
+        #endregion
+
+        #region -- CONSTRUCTOR --
         public PackagingOrders()
         {
             id = Int64.Parse(DateTime.Now.ToString("yyyyMMddHHmmssfff"));
-        }
+        } 
+        #endregion
     }
 }

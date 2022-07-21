@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-
-
     [SQLTable(nameof(FinishedGoodsDetails))]
     public class FinishedGoodsDetails
     {
