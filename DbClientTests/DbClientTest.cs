@@ -14,5 +14,13 @@ namespace DbClientTests
             Assert.IsNotNull(result._FinishedGoodsDetails[0]);
             Assert.IsNotNull(result._FinishedGoodsDetails[0]._RawGoodsInfo);
         }
+
+        [TestMethod("Testing creation of declared tables")]
+        public void TestingAutoTableCreation()
+        {
+            var result = DBManager.DbClient.GetCompletedProductOrders();
+
+        }
     }
+
 }

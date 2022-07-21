@@ -3,7 +3,7 @@ using System;
 
 namespace DBManager.Tables
 {
-    [SQLTable(nameof(RawGoodsInventory))]
+    [SQLTable(nameof(RawGoodsInventory), true)]
     public class RawGoodsInventory
     {
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]

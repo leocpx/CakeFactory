@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-    [SQLTable(nameof(PackagingOrders))]
+    [SQLTable(nameof(PackagingOrders), true)]
     public class PackagingOrders : IOrder
     {
         #region -- COLUMNS --

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,13 +19,21 @@ namespace DBManager
         #endregion
 
         #region ---- PRIVATE --
-        private static MuSQL _muSql { get; set; } = new MuSQL(ConfigLoader.LoadConfigs()); 
+        private static MuSQL _muSql { get; set; } 
         public static string _sqlConfigFilePath { get; set; } = "SqlConfig.ini";
         public static string DefaultAdminPassword { get; set; } = "cakeFactory";
         public static string DefaultUser { get; set; } = "admin";
         public static string SqlConfigFilePath => Path.Combine(Directory.GetCurrentDirectory(), "SqlConfig.ini");
         #endregion
 
+        #endregion
+
+        #region -- CONSTRUCTOR --
+        static DbClient()
+        {
+            _muSql = new MuSQL(ConfigLoader.LoadConfigs()); ;
+            GenerateAssemblySQLTables();
+        }
         #endregion
 
         #region -- FUNCTIONS --
@@ -61,6 +70,39 @@ namespace DBManager
         #endregion
 
         #region ---- PRIVATE --
+        private static void GenerateAssemblySQLTables()
+        {
+            var _assy = Assembly.GetAssembly(typeof(DbClient));
+            var types = _assy.GetExportedTypes();
+            var sql_tables = types.Where(t => t.GetCustomAttribute(typeof(SQLTableAttribute)) != null).ToList();
+            var sql_needed_for_autocreation = sql_tables.Where(
+                    s =>
+                    {
+                        var t = s.GetCustomAttribute(typeof(SQLTableAttribute)) as SQLTableAttribute;
+                        if (t.ShouldCreateIfMissing)
+                            return true;
+                        return false;
+                    }).ToList();
+
+            var createTableMethod = typeof(MuSQL).GetMethods().FirstOrDefault(
+                            x => x.Name.Equals(nameof(MuSQL.CreateTable), StringComparison.OrdinalIgnoreCase) &&
+                            x.IsGenericMethod && x.GetParameters().Length == 0);
+
+            var tableExistsMethod = typeof(MuSQL).GetMethods().FirstOrDefault(
+                x => x.Name.Equals(nameof(MuSQL.TableExists), StringComparison.OrdinalIgnoreCase) &&
+                x.IsGenericMethod && x.GetParameters().Length == 0);
+
+            foreach (var tbl in sql_needed_for_autocreation)
+            {
+                MethodInfo tableExists = tableExistsMethod.MakeGenericMethod(tbl);
+
+                if (((bool)tableExists.Invoke(_muSql,null)) != true)
+                {
+                    MethodInfo createTable = createTableMethod.MakeGenericMethod(tbl);
+                    createTable.Invoke(_muSql, null); 
+                }
+            }
+        }
         private static void CreateDefaultUser()
         {
 

@@ -3,7 +3,7 @@ using System;
 
 namespace DBManager.Tables
 {
-    [SQLTable(nameof(FinishedGoodsInventory))]
+    [SQLTable(nameof(FinishedGoodsInventory), false)]
     public class FinishedGoodsInventory
     {
         

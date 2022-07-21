@@ -7,7 +7,7 @@ namespace DBManager.Tables
 
 
 
-    [SQLTable(nameof(FinishedGoodsInfo))]
+    [SQLTable(nameof(FinishedGoodsInfo), true)]
     public class FinishedGoodsInfo
     {
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]

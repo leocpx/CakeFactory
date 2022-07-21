@@ -50,9 +50,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tables\FinishedGoodsDetails.cs" />
     <Compile Include="tables\FinishedGoodsInfo.cs" />
+    <Compile Include="tables\FinishedGoodsInventory.cs" />
+    <Compile Include="tables\PackagingItemInfo.cs" />
+    <Compile Include="tables\PackagingItemInventory.cs" />
     <Compile Include="tables\PackagingOrders.cs" />
+    <Compile Include="tables\PackagingTypeDetails.cs" />
+    <Compile Include="tables\PackagingTypeInfo.cs" />
     <Compile Include="tables\ProductionOrders.cs" />
     <Compile Include="tables\RawGoodsInfo.cs" />
+    <Compile Include="tables\RawGoodsInventory.cs" />
     <Compile Include="tables\Users.cs" />
   </ItemGroup>
   <ItemGroup>

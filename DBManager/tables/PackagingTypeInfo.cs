@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-    [SQLTable(nameof(PackagingTypeInfo))]
+    [SQLTable(nameof(PackagingTypeInfo), true)]
     public class PackagingTypeInfo
     {
         #region -- COLUMNS --
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]
         public Int64 id { get; set; }
+
 
         [SQLColumn(SQLColumnType.Varchar, nameof(_packagingTypeName), true, false)]
         public string _packagingTypeName { get; set; }

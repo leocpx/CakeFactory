@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace DBManager.Tables
 {
 
-    [SQLTable(nameof(ProductionOrders))]
+    [SQLTable(nameof(ProductionOrders), true)]
     public class ProductionOrders : IOrder
     {
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]

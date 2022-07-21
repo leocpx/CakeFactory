@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DBManager.Tables
 {
-    [SQLTable(nameof(FinishedGoodsDetails))]
+    [SQLTable(nameof(FinishedGoodsDetails),true)]
     public class FinishedGoodsDetails
     {
         [SQLColumn(SQLColumnType.BigInt, nameof(id), true, true)]
