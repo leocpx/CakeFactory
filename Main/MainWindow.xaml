@@ -17,55 +17,58 @@
         WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="9*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="15">
-                <TextBlock>Logged in as:</TextBlock>
-                <TextBlock Text="{Binding UserDisplayName}"/>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding MainMenuColumnWidth}"/>
-                <ColumnDefinition Width="{Binding SecondMenuColumnWidth}"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <MediaElement  Margin="-26" UnloadedBehavior="Manual"  Name="_medPlay" LoadedBehavior="Manual" Source="/Resources/production ID 4458664.mp4" Opacity="0.2" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="15">
+                    <TextBlock>Logged in as:</TextBlock>
+                    <TextBlock Text="{Binding UserDisplayName}"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding MainMenuColumnWidth}"/>
+                    <ColumnDefinition Width="{Binding SecondMenuColumnWidth}"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
 
-            <GroupBox Grid.Column="0" Header="{Binding MainMenuHeader}" Margin="5">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="121*"/>
-                        <ColumnDefinition Width="118*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="5*"/>
-                    </Grid.RowDefinitions>
-                    <ContentControl Content="{Binding MainMenu}" Grid.Row="1" Grid.ColumnSpan="2"/>
-                </Grid>
-            </GroupBox>
+                <GroupBox Grid.Column="0" Header="{Binding MainMenuHeader}" Margin="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="121*"/>
+                            <ColumnDefinition Width="118*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Content="{Binding MainMenu}" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    </Grid>
+                </GroupBox>
 
-            <GroupBox Grid.Column="1" Header="{Binding SecondMenuHeader}" Margin="5">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="5*"/>
-                    </Grid.RowDefinitions>
-                    <ContentControl Content="{Binding SecondMenu}" Grid.Row="1"/>
-                </Grid>
-            </GroupBox>
+                <GroupBox Grid.Column="1" Header="{Binding SecondMenuHeader}" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Content="{Binding SecondMenu}" Grid.Row="1"/>
+                    </Grid>
+                </GroupBox>
 
-            <GroupBox Grid.Column="2" Header="{Binding DisplayHeader}" Margin="5">
-                <Grid>
+                <GroupBox Grid.Column="2" Header="{Binding DisplayHeader}" Margin="5">
+                    <Grid>
 
-                    <ContentControl Content="{Binding MainDisplay}" Grid.Row="1"/>
-                </Grid>
-            </GroupBox>
+                        <ContentControl Content="{Binding MainDisplay}" Grid.Row="1"/>
+                    </Grid>
+                </GroupBox>
 
+            </Grid>
         </Grid>
     </Grid>
 </Window>

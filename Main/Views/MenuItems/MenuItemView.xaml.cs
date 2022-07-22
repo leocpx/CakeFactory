@@ -1,4 +1,5 @@
 ﻿using CoreCake;
+using MahApps.Metro.IconPacks;
 using Main.ViewModels.MenuItems;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,11 @@ namespace Main.Views.MenuItems
     /// </summary>
     public partial class MenuItemView : UserControl
     {
-        public MenuItemView(CoreCake.MenuItems displayName)
+        public MenuItemView(CoreCake.MenuItems displayName, PackIconBoxIconsKind kind)
         {
             InitializeComponent();
-            DataContext = new MenuItemViewModel(displayName);
+            DataContext = new MenuItemViewModel(displayName, kind);
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CoreCake;
 using DBManager;
 using DBManager.Tables;
+using MahApps.Metro.IconPacks;
 using Main.Views.Displays;
 using Main.Views.MenuItems;
 using Main.Views.Menus;
@@ -80,17 +81,17 @@ namespace Main.Models
                 });
 
             _ea.GetEvent<RegisterNewOrderEvent>().Subscribe(
-                order=>
+                order =>
                 {
                     var worker = DbClient.GetUser(order._workerId);
 
-                    if (worker!=null)
+                    if (worker != null)
                     {
                         if (worker._level == 2)
                             DbClient.RegisterNewProductionOrder(order);
 
                         if (worker._level == 3)
-                            DbClient.RegisterNewPackagingOrder(order); 
+                            DbClient.RegisterNewPackagingOrder(order);
                     }
                 });
 
@@ -99,7 +100,7 @@ namespace Main.Models
                 {
                     var fgi = DbClient.GetFinishedGoodInfo(askParam.worker.id, askParam.startTime);
 
-                    if(fgi!=null)
+                    if (fgi != null)
                     {
                         askParam.FinishedGoodInfo = fgi;
                         askParam.productionOrder = DbClient.GetProductionOrder(askParam.worker.id, askParam.startTime);
@@ -130,13 +131,13 @@ namespace Main.Models
                     var order = DbClient.GetProductionOrder(askParam.worker.id, askParam.startTime);
                     _ea.GetEvent<ReplyProductionOrderEvent>().Publish(order);
                 });
-        #endregion
+            #endregion
 
 
             #region -- PUBLISHES --
 
-        _ea.GetEvent<AskSecondSetterMenuEvent>().Publish();
-            _ea.GetEvent<AskDisplayMenuSetterEvent>().Publish(); 
+            _ea.GetEvent<AskSecondSetterMenuEvent>().Publish();
+            _ea.GetEvent<AskDisplayMenuSetterEvent>().Publish();
             #endregion
 
         }
@@ -175,7 +176,7 @@ namespace Main.Models
                     _ea.GetEvent<ExpandSecondMenuEvent>().Publish();
                     _ea.GetEvent<SetSecondMenuHeaderEvent>().Publish("READY FOR PACKAGING");
                     _ea.GetEvent<SetDisplayHeaderEvent>().Publish("PACKAGING SCHEDULES");
-                    
+
                     _adminPackagingPlanningDisplay = _adminPackagingPlanningDisplay == null ? new AdminPackagingPlanningView() : _adminPackagingPlanningDisplay;
                     _displayMenuSetter(_adminPackagingPlanningDisplay);
                     break;
@@ -247,9 +248,9 @@ namespace Main.Models
         #region -- execute menu item clicked functions --
         private List<UserControl> GetCategoryFinishedGoodMenuItems()
         {
-            var finishedGoods = DbClient.GetFinishedGoodInfoList().Select(fg=>fg._category).Distinct();
-            var result = finishedGoods.Select(fg =>(UserControl) new CategoryFinishedGoodItem(fg)).ToList();
-            result.Add(new MenuItemView(CoreCake.MenuItems.back_to_mainmenu));
+            var finishedGoods = DbClient.GetFinishedGoodInfoList().Select(fg => fg._category).Distinct();
+            var result = finishedGoods.Select(fg => (UserControl)new CategoryFinishedGoodItem(fg)).ToList();
+            result.Add(new MenuItemView(CoreCake.MenuItems.back_to_mainmenu, PackIconBoxIconsKind.RegularArrowBack));
 
             return result;
         }
@@ -259,13 +260,13 @@ namespace Main.Models
         {
             return new List<UserControl>()
             {
-                new MenuItemView(CoreCake.MenuItems.register_new_raw_goods),
-                new MenuItemView(CoreCake.MenuItems.register_new_finished_goods),
-                new MenuItemView(CoreCake.MenuItems.modify_raw_good_info),
-                new MenuItemView(CoreCake.MenuItems.modify_finished_good_info),
-                new MenuItemView(CoreCake.MenuItems.delete_raw_good_info),
-                new MenuItemView(CoreCake.MenuItems.delete_finished_good_info),
-                new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                new MenuItemView(CoreCake.MenuItems.register_new_raw_goods, PackIconBoxIconsKind.RegularCookie),
+                new MenuItemView(CoreCake.MenuItems.register_new_finished_goods, PackIconBoxIconsKind.SolidCake),
+                new MenuItemView(CoreCake.MenuItems.modify_raw_good_info, PackIconBoxIconsKind.SolidEdit),
+                new MenuItemView(CoreCake.MenuItems.modify_finished_good_info, PackIconBoxIconsKind.SolidEdit),
+                new MenuItemView(CoreCake.MenuItems.delete_raw_good_info, PackIconBoxIconsKind.RegularX),
+                new MenuItemView(CoreCake.MenuItems.delete_finished_good_info, PackIconBoxIconsKind.RegularX),
+                new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
             };
         }
         private List<UserControl> GetProgramSettingsItems()
@@ -276,22 +277,22 @@ namespace Main.Models
                 case 1:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.sql_connection_settings),
-                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                        new MenuItemView(CoreCake.MenuItems.sql_connection_settings, PackIconBoxIconsKind.SolidData),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
                     };
 
                 // PRODUCTION USER MENU ITEMS
                 case 2:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
                     };
 
                 // PACKAGING USER MENU ITEMS
                 case 3:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
                     };
 
                 default:
@@ -313,26 +314,26 @@ namespace Main.Models
                 case 1:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.create_new_account),
-                        new MenuItemView(CoreCake.MenuItems.modify_account),
-                        new MenuItemView(CoreCake.MenuItems.delete_account),
-                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                        new MenuItemView(CoreCake.MenuItems.create_new_account, PackIconBoxIconsKind.SolidUserAccount),
+                        new MenuItemView(CoreCake.MenuItems.modify_account, PackIconBoxIconsKind.RegularCreditCardFront),
+                        new MenuItemView(CoreCake.MenuItems.delete_account, PackIconBoxIconsKind.RegularX),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
                     };
 
                 // PRODUCTION USER MENU ITEMS
                 case 2:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.modify_account),
-                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                        new MenuItemView(CoreCake.MenuItems.modify_account, PackIconBoxIconsKind.RegularCreditCardFront),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
                     };
 
                 // PACKAGING USER MENU ITEMS
                 case 3:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.modify_account),
-                        new MenuItemView(CoreCake.MenuItems.close_secondMenu),
+                        new MenuItemView(CoreCake.MenuItems.modify_account, PackIconBoxIconsKind.RegularCreditCardFront),
+                        new MenuItemView(CoreCake.MenuItems.close_secondMenu, PackIconBoxIconsKind.RegularArrowBack),
                     };
                 default:
                     return null;
@@ -349,35 +350,35 @@ namespace Main.Models
                 case 1:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.production_planning),
-                        new MenuItemView(CoreCake.MenuItems.packaging_planning),
-                        new MenuItemView(CoreCake.MenuItems.inventory_management),
-                        new MenuItemView(CoreCake.MenuItems.database_management),
-                        new MenuItemView(CoreCake.MenuItems.account_administration),
-                        new MenuItemView(CoreCake.MenuItems.program_settings),
-                        new MenuItemView(CoreCake.MenuItems.reports),
-                        new MenuItemView(CoreCake.MenuItems.sales),
-                        new MenuItemView(CoreCake.MenuItems.logout),
+                        new MenuItemView(CoreCake.MenuItems.production_planning, PackIconBoxIconsKind.SolidFactory),
+                        new MenuItemView(CoreCake.MenuItems.packaging_planning, PackIconBoxIconsKind.RegularPackage),
+                        new MenuItemView(CoreCake.MenuItems.inventory_management, PackIconBoxIconsKind.RegularPackage),
+                        new MenuItemView(CoreCake.MenuItems.database_management, PackIconBoxIconsKind.RegularFoodMenu),
+                        new MenuItemView(CoreCake.MenuItems.account_administration, PackIconBoxIconsKind.SolidUserAccount),
+                        new MenuItemView(CoreCake.MenuItems.program_settings, PackIconBoxIconsKind.SolidWrench),
+                        new MenuItemView(CoreCake.MenuItems.reports, PackIconBoxIconsKind.RegularBarChartSquare),
+                        new MenuItemView(CoreCake.MenuItems.sales, PackIconBoxIconsKind.RegularLineChart),
+                        new MenuItemView(CoreCake.MenuItems.logout, PackIconBoxIconsKind.RegularLogOut),
                     };
 
                 // PRODUCTION WORKER MENU ITEMS
                 case 2:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.schedules),
-                        new MenuItemView(CoreCake.MenuItems.account_administration),
-                        new MenuItemView(CoreCake.MenuItems.inventory_management),
-                        new MenuItemView(CoreCake.MenuItems.logout),
+                        new MenuItemView(CoreCake.MenuItems.schedules, PackIconBoxIconsKind.RegularListOl),
+                        new MenuItemView(CoreCake.MenuItems.account_administration, PackIconBoxIconsKind.SolidUserAccount),
+                        new MenuItemView(CoreCake.MenuItems.inventory_management, PackIconBoxIconsKind.RegularPackage),
+                        new MenuItemView(CoreCake.MenuItems.logout, PackIconBoxIconsKind.RegularLogOut),
                     };
 
                 // PACKAGING WORKER MENU ITEMS
                 case 3:
                     return new List<UserControl>()
                     {
-                        new MenuItemView(CoreCake.MenuItems.schedules),
-                        new MenuItemView(CoreCake.MenuItems.account_administration),
-                        new MenuItemView(CoreCake.MenuItems.inventory_management),
-                        new MenuItemView(CoreCake.MenuItems.logout),
+                        new MenuItemView(CoreCake.MenuItems.schedules, PackIconBoxIconsKind.RegularListOl),
+                        new MenuItemView(CoreCake.MenuItems.account_administration, PackIconBoxIconsKind.SolidUserAccount),
+                        new MenuItemView(CoreCake.MenuItems.inventory_management, PackIconBoxIconsKind.RegularPackage),
+                        new MenuItemView(CoreCake.MenuItems.logout, PackIconBoxIconsKind.RegularLogOut),
                     };
 
                 default:

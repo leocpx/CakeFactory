@@ -14,6 +14,7 @@
         WindowState="Maximized"
         WindowStyle="None"
         AllowsTransparency="True"
+        WindowStartupLocation="CenterOwner"
         Title="ConfirmationDialogView" Height="450" Width="800"
         Background="Transparent"
         >

@@ -2,6 +2,7 @@
 using Main.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,28 @@ namespace Main
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel(user);
+            try
+            {
+                _medPlay.Source = new Uri(Directory.GetCurrentDirectory() + "/video.mp4", UriKind.Absolute);
+                _medPlay.Play();
+                var b = _medPlay.IsLoaded;
+                _medPlay.MediaEnded += _medPlay_MediaEnded;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void _medPlay_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _medPlay.Position = new TimeSpan(0, 0, 1);
+                _medPlay.Play();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

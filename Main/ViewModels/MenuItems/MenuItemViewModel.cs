@@ -1,4 +1,5 @@
 ﻿using CoreCake;
+using MahApps.Metro.IconPacks;
 using Main.ViewModels.Menus.abstracts;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,18 @@ namespace Main.ViewModels.MenuItems
     public class MenuItemViewModel : GUIEntity
     {
         #region -- PROPERTIES --
-        
+
         #region -- PUBLIC --
-        
+
         #region -- BINDED --
+        private PackIconBoxIconsKind _iconKind;
+        public PackIconBoxIconsKind IconKind
+        {
+            get { return _iconKind; }
+            set { _iconKind = value; RaisePropertyChanged(nameof(IconKind)); }
+        }
+
+
         private string _itemDisplayName;
         public string ItemDisplayName
         {
@@ -34,8 +43,9 @@ namespace Main.ViewModels.MenuItems
         #endregion
 
         #region -- CONSTRUCTOR --
-        public MenuItemViewModel(CoreCake.MenuItems menuItem) : base()
+        public MenuItemViewModel(CoreCake.MenuItems menuItem, PackIconBoxIconsKind icoKind) : base()
         {
+            IconKind = icoKind;
             ItemDisplayName = CoreCake.Core.GetDisplayName(menuItem);
             _menuItem = menuItem;
         }

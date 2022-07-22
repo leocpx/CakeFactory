@@ -11,8 +11,10 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
-        
-            <ContentControl Grid.Column="0" Content="{Binding ExistingUsersControl}" VerticalAlignment="Top"/>
+
+        <Grid Grid.Column="0" >
+            <ContentControl Content="{Binding ExistingUsersControl}" />
+        </Grid>
         
         <Grid Grid.Column="1" Margin="25">
             <Grid.RowDefinitions>
