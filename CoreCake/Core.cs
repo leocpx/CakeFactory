@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreCake.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,104 +11,83 @@ namespace CoreCake
     {
         public static string GetDisplayName(MenuItems item)
         {
-            switch (item)
-            {
-                case MenuItems.schedules:
-                    return "SCHEDULES";
-                
-                case MenuItems.production_planning:
-                    return "PRODUCTION PLANNING";
+            var itemName = item.ToString();
+            var enumValue = item.GetType().GetMember(itemName).First();
+            var prop = enumValue.GetCustomAttributes(typeof(MenuItemNameAttribute),false).First() as MenuItemNameAttribute;
 
-                case MenuItems.packaging_planning:
-                    return "PACKAGING PLANNING";
-
-                case MenuItems.account_administration:
-                    return "ACCOUNT ADMINISTRATION"; 
-
-                case MenuItems.inventory_management:
-                    return "INVENTORY MANAGEMENT";
-
-                case MenuItems.database_management:
-                    return "DATABASE MANAGEMENT";
-
-                case MenuItems.reports:
-                    return "REPORTS";
-
-                case MenuItems.sales:
-                    return "SALES";
-
-                case MenuItems.program_settings:
-                    return "PROGRAM SETTINGS";
-
-                case MenuItems.back_to_mainmenu:
-                    return "< BACK TO MAIN MENU";
-
-                case MenuItems.logout:
-                    return "LOG OUT";
-
-                case MenuItems.create_new_account:
-                    return "CREATE NEW ACCOUNT";
-
-                case MenuItems.modify_account:
-                    return "MODIFY ACCOUNT";
-
-                case MenuItems.delete_account:
-                    return "DELETE ACCOUNT";
-
-                case MenuItems.close_secondMenu:
-                    return "< BACK";
-
-                case MenuItems.sql_connection_settings:
-                    return "SQL CONNECTION SETTINGS";
-
-                case MenuItems.register_new_raw_goods:
-                    return "CREATE RAW GOODS";
-
-                case MenuItems.register_new_finished_goods:
-                    return "CREATE FINISHED GOODS";
-
-                case MenuItems.modify_raw_good_info:
-                    return "MODIFY RAW GOOD";
-
-                case MenuItems.modify_finished_good_info:
-                    return "MODIFY FINISHED GOOD";
-
-                case MenuItems.delete_raw_good_info:
-                    return "DELETE RAW GOOD";
-
-                case MenuItems.delete_finished_good_info:
-                    return "DELETE FINISHED GOOD";
-
-                default:
-                    return "";
-            }
+            return prop.Name;
         }
     }
 
     public enum MenuItems
     {
+        [MenuItemName("SCHEDULES")]
         schedules,
+        
+        [MenuItemName("PRODUCTION PLANNING")]
         production_planning,
+
+        [MenuItemName("PACKAGING PLANNING")]
         packaging_planning,
+        
+        [MenuItemName("ACCOUNT ADMINISTRATION")]
         account_administration,
+        
+        [MenuItemName("INVENTORY MANAGEMENT")]
         inventory_management,
+        
+        [MenuItemName("DATABASE MANAGEMENT")]
         database_management,
+        
+        [MenuItemName("REPORTS")]
         reports,
+        
+        [MenuItemName("SALES")]
         sales,
+        
+        [MenuItemName("PROGRAM SETTINGS")]
         program_settings,
+        
+        [MenuItemName("BACK TO MAIN MENU")]
         back_to_mainmenu,
+        
+        [MenuItemName("PERSONAL LOGIN ACCOUNT")]
         personal_login_account,
+        
+        [MenuItemName("LOGOUT")]
         logout,
+        
+        [MenuItemName("CREATE NEW ACCOUNT")]
         create_new_account,
+        
+        [MenuItemName("MODIFY ACCOUNT")]
         modify_account,
+        
+        [MenuItemName("DELETE ACCOUNT")]
         delete_account,
+        
+        [MenuItemName("CLOSE MENU")]
         close_secondMenu,
+        
+        [MenuItemName("SQL CONNECTION SETTINGS")]
         sql_connection_settings,
+        
+        [MenuItemName("CREATE RAW GOODS")]
         register_new_raw_goods,
+        
+        [MenuItemName("CREATE FINISHED GOODS")]
         register_new_finished_goods,
+        
+        [MenuItemName("MODIFY RAW GOODS")]
         modify_raw_good_info,
+        
+        [MenuItemName("DELETE RAW GOODS")]
         delete_raw_good_info,
+        
+        [MenuItemName("MODIFY FINISHED GOODS")]
         modify_finished_good_info,
+        
+        [MenuItemName("DELETE FINISHED GOODS")]
         delete_finished_good_info
     }
 }

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MenuItemNameAttribute.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="DefaultCommand.cs" />
     <Compile Include="Interfaces\IOrder.cs" />
