@@ -77,6 +77,12 @@ namespace CoreCake
         
         [MenuItemName("CREATE FINISHED GOODS")]
         register_new_finished_goods,
+
+        [MenuItemName("CREATE NEW PACKAGING SUPPLY")]
+        register_new_packaging_supply,
+
+        [MenuItemName("CREATE NEW PACKAGING TYPE")]
+        register_new_packaging_type,
         
         [MenuItemName("MODIFY RAW GOODS")]
         modify_raw_good_info,
@@ -88,6 +94,16 @@ namespace CoreCake
         modify_finished_good_info,
         
         [MenuItemName("DELETE FINISHED GOODS")]
-        delete_finished_good_info
+        delete_finished_good_info,
+
+        [MenuItemName("SCAN RAW GOODS")]
+        scan_raw_goods,
+
+        [MenuItemName("SCAN PACKAGING SUPPLIES")]
+        scan_pacaking_supplies,
+
+        [MenuItemName("SCAN FINISHED GOODS")]
+        scan_finished_good
+
     }
 }
